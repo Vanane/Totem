@@ -1,0 +1,15 @@
+- Les noms des variables sont en camelCase : nombreJoueurs
+- Les noms des fonctions et des types sont en CamelCase : JouerTour, TPile, TListeCartes
+- FonctionCreation.c contient toutes les fonctions pour créer la partie, les cartes, etc.
+- FonctionsEffets.c contient toutes les fonctions liées aux effets des totems : switch sur l'ID, etc.
+- FonctionsPouvoirs.c contient toutes les fonctions liées aux pouvoirs des cartes : switch sur l'ID, etc.
+- Tous les includes nécessaires sont à écrire dans main.c
+
+Types : 
+TPartie {TJoueur Joueurs[3], TPile Pioche, int joueurActuel}
+TJoueur {char nom[16], TListeCarte main, int score, TPile totem}
+TListeCarte {TCell * debut}
+TCell {TCarte carte, TCell * suivant} 
+TCarte {char nom[25], char description[150], int icone, int pouvoir, int type}
+TPile {TElem * debut}
+TElem {TCarte elem, TElem * suivant}

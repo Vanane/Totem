@@ -27,7 +27,7 @@ int main(){
     afficherListeCarte(liste);
 
 	// CONTINUER LE PROGRAMME PRINCIPAL - FAIRE UN MENU
-
+    scanf("%d");
     return 0;
 }
 

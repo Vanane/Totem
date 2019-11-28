@@ -52,7 +52,7 @@ void PouvoirCarte(TPartie p, TCarte c)
 //************************************
 
 
-int JouerTour(TPartie * p)
+void JouerTour(TPartie * p)
 {
     //    LEXIQUE LOCAL
     int choix;
@@ -78,8 +78,9 @@ int JouerTour(TPartie * p)
     ent = 1;
     while (aux!= NULL)
     {
-    printf(ent);
-    printf(aux);
+    printf("%d", ent);
+    //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
+    //printf("%d", aux);
     aux = ((*aux)).suivant;
     ent++;
     } 
@@ -99,15 +100,16 @@ int JouerTour(TPartie * p)
     //AppelJouerCarte(p, aux)
     }  ;
     case 2:
-    PiocherCarte((*p), aux);
+    PiocherCarte((*p));
 
     case 3:
     printf("Quelle carte souhaitez vous défausser ?");
     ent = 1;
     while (aux!= NULL);
     {
-    printf(ent);
-    printf(aux);
+    printf("%d", ent);
+    //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
+    //printf("%d", aux);
     aux = ((*aux)).suivant;
     ent++;
     } 

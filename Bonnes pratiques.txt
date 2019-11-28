@@ -13,3 +13,4 @@ TCell {TCarte carte, TCell * suivant}
 TCarte {char nom[25], char description[150], int icone, int pouvoir, int type}
 TPile {TElem * debut}
 TElem {TCarte elem, TElem * suivant}
+

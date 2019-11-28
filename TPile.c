@@ -1,4 +1,4 @@
-#define TYPEPILE TCarte //Type utilisé pour la pile
+#define TYPEPILE int //Type utilisé pour la pile
 
 
 typedef struct _TElem{

@@ -4,21 +4,6 @@
 // definition des types : liste chainee
 // ************************************
 
-
-typedef struct __TJoueur{
-		char nom[16];
-		TListeCarte main;
-		int score;
-		TPile totem;
-}TJoueur;
-
-typedef struct _TPartie
-{
-	TJoueur Joueurs[3];
-	TPile pioche;
-	int joueurActuel;
-}TPartie;
-
 typedef struct _TCarte
 {
 	char nom[25];
@@ -39,9 +24,25 @@ typedef struct _TListeCarte
 	TCell * debut;  // liste TRIEE sur le nom et prénom des étudiants
 } TListeCarte;
 
+typedef struct __TJoueur{
+		char nom[16];
+		TListeCarte main;
+		int score;
+		TPile totem;
+}TJoueur;
+
+typedef struct _TPartie
+{
+	TJoueur Joueurs[3];
+	TPile pioche;
+	int joueurActuel;
+}TPartie;
+
+
 // **************************
 //  prototypes des fonctions
 // **************************
+
 void creerListeCarte (TListeCarte * liste);
 //void creerPartie(TPartie * Partie)
 void afficherListeCarte(TListeCarte liste);

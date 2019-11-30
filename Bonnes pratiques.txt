@@ -4,6 +4,8 @@
 - FonctionsEffets.c contient toutes les fonctions liées aux effets des totems : switch sur l'ID, etc.
 - FonctionsPouvoirs.c contient toutes les fonctions liées aux pouvoirs des cartes : switch sur l'ID, etc.
 - Tous les includes nécessaires sont à écrire dans main.c
+- Il faudrait séparer les fonctions annexes du reste du code, comme la création des cartes par exemple
+- Les commentaires du style //TODO sont reconnus par les éditeurs de texte pour marquer un endroit précis à retravailler.
 
 Types : 
 TPartie {TJoueur Joueurs[3], TPile Pioche, int joueurActuel}

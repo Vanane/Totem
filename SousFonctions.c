@@ -21,116 +21,15 @@ int SaisirEntre(int min, int max)
  return saisi;
 }
 
-//************************************
-//       Procédure Jouer Carte
-//************************************
-
-void JouerCarte(TPartie p, TCarte c)
+bool SaisirReponse(char message[128])
 {
-
+    char c;
+    do
+    {
+        if(c !='o' && c != 'n' && c != '\n')
+            printf("%s\n", message);
+        scanf("%c", &c);
+    }while(c !='o' && c != 'n');
+    return c =='o' ? true : false;
 }
 
-//************************************
-//      Procédure Piocher Carte
-//************************************
-
-void PiocherCarte(TPartie p)
-{
-
-}
-
-//************************************
-//     Procédure Pouvoir Carte
-//************************************
-
-void PouvoirCarte(TPartie p, TCarte c)
-{}
-
-
-//************************************
-//        Procédure Jouer Tour
-//************************************
-
-
-void JouerTour(TPartie * p)
-{
-    //    LEXIQUE LOCAL
-    int choix;
-    int num;
-    int ent;
-    bool trouve;
-    TCell * aux;
-    TCell * prec;
-
-    //       DEBUT_cartes
-    printf("Quelle action souhaitez vous faire ? \n 1/Jouer une carte 2/Piocher deux cartes 3/Defausser une carte de votre main \n");
-    choix = SaisirEntre(1,3);
-    trouve = false;
-
-    //TODO: Comment est-ce qu'on récupère le joueur qui joue actuellement ?
-    aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
-    prec = (* p).Joueurs[(* p).joueurActuel].main.debut;
-
-    switch(choix)
-    {
-    case 1:
-    printf("Quelle carte souhaitez vous jouez ?");
-    ent = 1;
-    while (aux!= NULL)
-    {
-    printf("%d", ent);
-    //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-    //printf("%d", aux);
-    aux = ((*aux)).suivant;
-    ent++;
-    } 
-    num = SaisirEntre(1,ent);
-    ent = 1;
-    while (aux!= NULL && !trouve);
-    {
-    if(num==ent)
-    {
-    trouve = true;
-    }
-    aux = ((*aux)).suivant;
-    ent++;
-    }
-    if(trouve)
-    {
-    //AppelJouerCarte(p, aux)
-    }  ;
-    case 2:
-    PiocherCarte((*p));
-
-    case 3:
-    printf("Quelle carte souhaitez vous défausser ?");
-    ent = 1;
-    while (aux!= NULL);
-    {
-    printf("%d", ent);
-    //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-    //printf("%d", aux);
-    aux = ((*aux)).suivant;
-    ent++;
-    } 
-    num = SaisirEntre(1,ent);
-    ent = 1;
-    while (aux!= NULL && !trouve)
-    {
-    if(num==ent)
-    {
-    trouve = true;
-    }
-    prec = aux;
-    aux = (*aux).suivant;
-    ent++;
-    }
-    if(trouve)
-    {
-    (*prec).suivant = (*aux).suivant;
-    free(aux);
-    aux = (*prec).suivant;
-    }; 
-    default: printf("Erreur saisie");
-    }
-}

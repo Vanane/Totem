@@ -10,6 +10,7 @@
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
 #include "FonctionsTour.c"
+#include "FonctionsTests.c"
 
 //Fonctions
 

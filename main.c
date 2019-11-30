@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
-#include "creation.c"
 #include "TPile.c"
 #include "SousFonctions.c"
+#include "creation.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
 #include "FonctionsTour.c"
@@ -20,6 +21,7 @@
 
 //Programme Principal
 int main(){
+    srand(time(NULL));
 
     TListeCarte liste;
     liste.debut = NULL;

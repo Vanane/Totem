@@ -29,6 +29,8 @@ typedef struct __TJoueur{
 		TListeCarte main;
 		int score;
 		TPile totem;
+	bool EstProtegeVol;
+	bool EstProtegeDestr;
 }TJoueur;
 
 typedef struct _TPartie

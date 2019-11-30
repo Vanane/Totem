@@ -4,10 +4,10 @@
 
 
 //************************************
-//        Fonction Saisir_entre
+//        Fonction SaisirEntre
 //************************************
 
-int saisir_entre(int min, int max)
+int SaisirEntre(int min, int max)
 {
     int saisi;
  printf("Veuillez saisir un entier compris entre %d et %d :\n",min,max);
@@ -64,7 +64,7 @@ void JouerTour(TPartie * p)
 
     //       DEBUT_cartes
     printf("Quelle action souhaitez vous faire ? \n 1/Jouer une carte 2/Piocher deux cartes 3/Defausser une carte de votre main \n");
-    choix = saisir_entre(1,3);
+    choix = SaisirEntre(1,3);
     trouve = false;
 
     //TODO: Comment est-ce qu'on récupère le joueur qui joue actuellement ?
@@ -84,7 +84,7 @@ void JouerTour(TPartie * p)
     aux = ((*aux)).suivant;
     ent++;
     } 
-    num = saisir_entre(1,ent);
+    num = SaisirEntre(1,ent);
     ent = 1;
     while (aux!= NULL && !trouve);
     {
@@ -113,7 +113,7 @@ void JouerTour(TPartie * p)
     aux = ((*aux)).suivant;
     ent++;
     } 
-    num = saisir_entre(1,ent);
+    num = SaisirEntre(1,ent);
     ent = 1;
     while (aux!= NULL && !trouve)
     {

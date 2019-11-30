@@ -5,7 +5,11 @@
 
 #include "TPile.c"
 #include "creation.c"
+#include "TPile.c"
 #include "SousFonctions.c"
+#include "FonctionsPouvoirs.c"
+#include "FonctionsEffets.c"
+
 
 //Permet de définir le type contenu dans la pile, pour ce programme. A voir si c'est utile de le garder ou non
 #undef TYPEPILE
@@ -21,10 +25,9 @@ int main(){
     TListeCarte liste;
     liste.debut = NULL;
     creerListeCarte(&liste);
-    //afficherListeCarte(liste);
+    afficherListeCarte(liste);
     libererListeCarte(&liste);
     printf("Si rien après ok");
-    afficherListeCarte(liste);
 
 	// CONTINUER LE PROGRAMME PRINCIPAL - FAIRE UN MENU
     scanf("%d");

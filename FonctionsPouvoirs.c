@@ -1,0 +1,5 @@
+void PouvoirCarte(TCarte Carte)
+{
+
+    
+}

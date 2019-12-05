@@ -67,6 +67,17 @@ int CompteCartesMain(TPartie Partie, int joueur) // Retourne le nombre de carte 
     return count;
 }
 
+int ComptePile(TPile pile)
+{
+    int count = 0;
+    while(!EstPileVide(pile))
+    {
+        pile = Depiler(pile);
+        count++;
+    }
+    return count;
+}
+
 void SupprimerCarteMain(TPartie * Partie, int pos, int joueur) //Supprime la carte d'une main d'un joueur à une position donnée.
 {
     TCell * aux, * prec;

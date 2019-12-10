@@ -1,8 +1,5 @@
-#define TYPEPILE int //Type utilisé pour la pile
-
-
 typedef struct _TElem{
-  TYPEPILE elem;
+  TCarte elem;
   struct _TElem * suivant;
 }TElem;
 
@@ -11,9 +8,9 @@ typedef struct _TPile{
 }TPile;
 
 TPile PileVide(); //Renvoie une pile vierge
-TPile Empiler(TYPEPILE E, TPile P); //Renvoie une pile dont le dernier élément est E
+TPile Empiler(TCarte E, TPile P); //Renvoie une pile dont le dernier élément est E
 TPile Depiler(TPile P); //Renvoie une pile dont le dernier élément posé a été enlevé
-TYPEPILE Sommet(TPile P); //Renvoie le dernier élément posé d'une pile
+TCarte Sommet(TPile P); //Renvoie le dernier élément posé d'une pile
 bool EstPileVide(TPile P); //Regarde si la pile est vide ou non
 void AfficherPile(TPile P); //Affiche une pile sur l'écran
 void DesallouerPile(TPile * P); //Désalloue une pile de la mémoire
@@ -56,7 +53,7 @@ TPile PileVide(){
 }
 
 
-TPile Empiler(TYPEPILE E, TPile P){
+TPile Empiler(TCarte E, TPile P){
 //Renvoie une pile dont le dernier élément est E  
   TElem * new = malloc(sizeof(TElem));
   (* new).elem = E;
@@ -75,7 +72,7 @@ TPile Depiler(TPile P){
 }
 
 
-TYPEPILE Sommet(TPile P){
+TCarte Sommet(TPile P){
   //Renvoie le dernier élément posé d'une pile
   if(P.debut == NULL){
     fprintf(stderr, "Erreur ! Sommet() retourne une erreur, la pile est vide. Sortie du programme.");

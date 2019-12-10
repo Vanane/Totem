@@ -17,14 +17,6 @@ void PiocherCarte(TPartie p)
 }
 
 //************************************
-//     Procédure Pouvoir Carte
-//************************************
-
-void PouvoirCarte(TPartie p, TCarte c)
-{}
-
-
-//************************************
 //        Procédure Jouer Tour
 //************************************
 

@@ -1,45 +1,7 @@
-
-
-// ************************************
-// definition des types : liste chainee
-// ************************************
-
-typedef struct _TCarte
-{
-	char nom[25];
-	char desc[150];
-  int icone;
-  int pouvoir;
-  int type;
-} TCarte;
-
-typedef struct _TCell
-{
-	TCarte carte; // un etudiant -- liste TRIEE
-	struct _TCell * suivant;
-} TCell;
-
-typedef struct _TListeCarte
-{
-	TCell * debut;  // liste TRIEE sur le nom et prénom des étudiants
-} TListeCarte;
-
-typedef struct __TJoueur{
-		char nom[16];
-		TListeCarte main;
-		int score;
-		TPile totem;
-	bool EstProtegeVol;
-	bool EstProtegeDestr;
-}TJoueur;
-
-typedef struct _TPartie
-{
-	TJoueur Joueurs[3];
-	TPile pioche;
-	int joueurActuel;
-}TPartie;
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 // **************************
 //  prototypes des fonctions
@@ -49,7 +11,10 @@ void creerListeCarte (TListeCarte * liste);
 //void creerPartie(TPartie * Partie)
 void afficherListeCarte(TListeCarte liste);
 void libererListeCarte (TListeCarte * liste);
-
+void creerPileCarte(TListeCarte * liste, TPile * pioche);
+int nbalea (int min, int max);
+void supprimerListeCarte (TListeCarte * liste , int i);
+TCarte rechercheCarte(TListeCarte liste, int i);
 
 // procédure pour créer la liste
 void creerListeCarte (TListeCarte * liste)
@@ -316,7 +281,7 @@ nbcarte =5;
 
 }
 
-// procédure pour afficher une liste d'Etudiants
+// procédure pour afficher une liste carte
 void afficherListeCarte(TListeCarte liste)
 {
 		TCell * aux;
@@ -333,7 +298,7 @@ void afficherListeCarte(TListeCarte liste)
 
 }
 
-// procédure pour libérer une liste d'Etudiants
+// procédure pour libérer une liste carte
 void libererListeCarte (TListeCarte * liste)
 {
 	TCell * aux;
@@ -344,4 +309,87 @@ void libererListeCarte (TListeCarte * liste)
         free((*liste).debut);
         (*liste).debut=aux;
     }
+}
+
+void creerPileCarte(TListeCarte * liste, TPile * pioche)
+{
+    int nb, min, max;
+		TCarte carte;
+
+    nb = 0;
+    min = 1;
+    max = 59;
+
+    while ((*liste).debut != NULL){
+        nb = nbalea(min,max);
+				carte = rechercheCarte((*liste),nb);
+        (*pioche) = Empiler(carte, (*pioche));
+				supprimerListeCarte(liste,nb);
+				max--;
+    }
+
+}
+
+int nbalea (int min, int max)
+{
+    return (min + (rand () % (max-min+1)));
+}
+
+void supprimerListeCarte (TListeCarte * liste , int i)
+{
+		TCell * aux;
+    TCell * prec;
+    bool trouver;
+    int nb;
+
+    aux = (*liste).debut;
+    prec = (*liste).debut;
+    trouver = false;
+    nb=1;
+
+   while (!trouver && aux != NULL){
+        if(nb==i && aux==prec){
+            aux =(*aux).suivant;
+            free((*liste).debut);
+            (*liste).debut=aux;
+            trouver=true;
+        }else{
+            if(nb==i){
+                trouver = true;
+                (*prec).suivant = (*aux).suivant;
+                free(aux);
+            }else{
+               prec=aux;
+               aux =(*aux).suivant;
+                nb++;
+            }
+        }
+    }
+}
+
+TCarte rechercheCarte(TListeCarte liste, int i)
+{
+		TCell * aux;
+    bool trouver;
+    TCarte carte;
+		int nb;
+
+    aux = liste.debut;
+    trouver = false;
+    nb=1;
+
+    while(aux != NULL && !trouver){
+         if(nb==i){
+              trouver = true;
+              strcpy(carte.nom, (*aux).carte.nom);
+	          	strcpy(carte.desc, (*aux).carte.desc) ;
+              carte.icone = (*aux).carte.icone;
+              carte.pouvoir = (*aux).carte.pouvoir;
+              carte.type = (*aux).carte.type;
+         }else{
+            aux =(*aux).suivant;
+            nb++;
+         }
+    }
+    return carte;
 }

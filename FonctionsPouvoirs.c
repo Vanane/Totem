@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 void IntervertirTotems(TPartie * Partie);
 void CartePillage(TPartie * Partie, int joueurPille);
 void CadeauTotem(TPartie * Partie, int vitime, int gagnant);
@@ -6,25 +10,34 @@ void EffetPouvoir(TCarte Carte, TPartie * Partie)
 {
     switch(Carte.type)
     {
-        case 8: //Esprit Farceur
+        case 8:{
+            //Esprit Farceur
             IntervertirTotems(Partie);
-            break;
-        case 9: //Bison Dingo
+        }
+        break;
+        case 9:{
+            //Bison Dingo
             printf("Quel joueur voulez-vous Detruire ?\n Joueur : ");
             int idJ = SaisirEntre(0,2);
             DetruireEtage(Partie, idJ);
-            break;
-        case 10: //Faux Pas
+        }
+        break;
+        case 10:{
+            //Faux Pas
             //A réfléchir
             //TODO: Faux Pas
-            break;
-        case 11: //Pillage
+        }
+        break;
+        case 11:{
+            //Pillage
             //Voler un totem et mettre la carte dans la main du voleur. Si son nbTotem < 4, rejouer.
             printf("Quel joueur voulez-vous voler ? \n");
             int victime = SaisirEntre(0,2);
             CartePillage(Partie, victime);
-            break;
-        case 12: //Cadeau
+        }
+        break;
+        case 12: {
+            //Cadeau
             //Voler un totem et le donner à un adversaire, puis piocher une carte.
             printf("Quel joueur voulez-vous voler ? \n");
             int victime = SaisirEntre(0,2);
@@ -32,15 +45,18 @@ void EffetPouvoir(TCarte Carte, TPartie * Partie)
             int gagnant = SaisirEntre(0,2);
 
             CadeauTotem(Partie, victime, gagnant);
-            break;
-        case 13: //Eau De Feu
+        }
+        break;
+        case 13:{
+            //Eau De Feu
             for(int i = 0; i < 2; i++)
             {
                 PiocherCarte(Partie, (* Partie).joueurActuel);
                 //TODO : Faire rejouer le joueur
             }
             //Piocher 2 cartes et rejouer immédiatement.
-            break;
+        }
+        break;
     }
 }
 
@@ -66,8 +82,8 @@ void IntervertirTotems(TPartie * Partie)
 }
 
 void CadeauTotem(TPartie * Partie, int victime, int gagnant)
-{    
-    (* Partie).Joueurs[gagnant].totem = Sommet((* Partie).Joueurs[victime].totem);
+{
+    (* Partie).Joueurs[gagnant].totem = Empiler(Sommet((* Partie).Joueurs[victime].totem), (* Partie).Joueurs[gagnant].totem);
     (* Partie).Joueurs[victime].totem = Depiler((* Partie).Joueurs[victime].totem);
     PiocherCarte(Partie, (* Partie).joueurActuel);
 }

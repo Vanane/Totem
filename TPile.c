@@ -1,11 +1,6 @@
-typedef struct _TElem{
-  TCarte elem;
-  struct _TElem * suivant;
-}TElem;
-
-typedef struct _TPile{
-  TElem * debut;
-}TPile;
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 TPile PileVide(); //Renvoie une pile vierge
 TPile Empiler(TCarte E, TPile P); //Renvoie une pile dont le dernier élément est E
@@ -16,34 +11,6 @@ void AfficherPile(TPile P); //Affiche une pile sur l'écran
 void DesallouerPile(TPile * P); //Désalloue une pile de la mémoire
 
 
-/* Fonction Main de test avec des entiers
-int main(){
-  TPile pile, pile2;
-  pile = PileVide();
-
-  //Axiome 1 : EstVide(PileVide()) = true;
-  printf("Vide : %d\n", EstPileVide(PileVide()));
-  //Axiome 2 : 
-  printf("Vide : %d\n", EstPileVide(Empiler(0, pile)));
-  //Axiome 3 :
-  pile = Empiler(4, pile);
-  pile = Empiler(5, pile);
-  pile = Empiler(1, pile);
-
-  pile2 = Depiler(Empiler(0, pile));
-  AfficherPile(pile);
-  AfficherPile(pile2);
-
-  printf("Dépiler : %d\n", Sommet(pile) == Sommet(pile2));
-
-  //Axiome 4 : 
-  printf("Sommet : %d\n", Sommet(Empiler(0, pile)) == 0);
-
-  DesallouerPile(&pile);
-  DesallouerPile(&pile2);
-  return 0;
-}
-*/
 
 TPile PileVide(){
   //Renvoie une pile vierge
@@ -74,10 +41,11 @@ TPile Depiler(TPile P){
 
 TCarte Sommet(TPile P){
   //Renvoie le dernier élément posé d'une pile
+  TCarte t;
   if(P.debut == NULL){
-    fprintf(stderr, "Erreur ! Sommet() retourne une erreur, la pile est vide. Sortie du programme.");
-    exit(EXIT_FAILURE);
-  }
+    return t;
+  }  
+
   return (* P.debut).elem;
 }
 

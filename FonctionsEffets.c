@@ -1,13 +1,17 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 void VolerTotem(TPartie * Partie, int JoueurVictime);
 void ImmuniteVol(TPartie * Partie);
 void VolerCarteNum(TPartie * Partie, int numCarte, int numJoueur);
-
 
 void EffetTotem(TCarte Carte, TPartie * Partie)
 {
     switch(Carte.type)
     {
-        case 1: //Coyote
+        case 1: {
+            //Coyote
             int idJ;
             bool Refus, Immunise;
             do{
@@ -16,57 +20,71 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
                 if(idJ == -1)
                     Refus = true;
                 else
-                    Immunise = (* Partie).Joueurs[idJ].EstProtegeVol;
+                    Immunise = (* Partie).Joueurs[idJ].estProtegeVol;
             } while(((* Partie).joueurActuel == idJ || Immunise) && !Refus);
             
             if(!Refus)
-            VolerTotem(Partie, idJ);                
-            break;
-        case 2: //Aigle
-            ImmuniteVol(Partie);
+            VolerTotem(Partie, idJ);
+        }               
         break;
-        case 3: //Loup
+        case 2:{
+            //Aigle
+            ImmuniteVol(Partie);
+        }
+        break;
+        case 3:{
+            //Loup
             bool Voler = SaisirReponse("Voulez-vous voler un joueur ?");
             
             if(Voler)
             {
                 printf("Quel joueur voulez-vous voler ?\n Joueur : ");
-                idJ = SaisirEntre(0,2);
+                int idJ = SaisirEntre(0,2);
                 for(int i = 0; i < 2; i++)
                 {
                     int r = Random(1, CompteCartesMain(* Partie, idJ));
                     VolerCarteNum(Partie, r, idJ);
                 }
             }
+        }
         break;
-        case 4: //Corbeau
+        case 4:{
+            //Corbeau
             bool Echanger = SaisirReponse("Voulez-vous voler un joueur ?");
 
             if(Echanger)
             {
                 printf("Avec quel joueur voulez-vous échanger vos cartes ?");
-                idJ = SaisirEntre(0,2);
+                int idJ = SaisirEntre(0,2);
                 EchangerMain(Partie, idJ);
             }
+        }
         break;
-        case 5: //Lynx
-        //TODO: l'effet se triger à chaque fin de tour, le faire dans une autre fonction incluse dans JouerTour ?
+        case 5:{
+            //Lynx
+            //TODO: l'effet se triger à chaque fin de tour, le faire dans une autre fonction incluse dans JouerTour ?
+        }
         break;
-        case 6: //Tortue
+        case 6:{
+            //Tortue
             ImmuniteDestr(Partie);
+        }
         break;
-        case 7: //Ours
+        case 7:{
+            //Ours
             bool Detruire = SaisirReponse("Voulez-vous Detruire un joueur ?");
             
             if(Detruire)
             {
                 printf("Quel joueur voulez-vous Detruire ?\n Joueur : ");
-                idJ = SaisirEntre(0,2);
+                int idJ = SaisirEntre(0,2);
                 DetruireEtage(Partie, idJ);
             }
+        }
         break;
-        default:
-        printf("La carte donnée en paramètre d'EffetTotem (id : %d) n'est pas reconnue comme totem.", Carte.type);
+        default:{
+            printf("La carte donnée en paramètre d'EffetTotem (id : %d) n'est pas reconnue comme totem.", Carte.type);
+        }
         break;
     }
 }
@@ -85,12 +103,12 @@ void VolerTotem(TPartie * Partie, int JoueurVictime)
 
 void ImmuniteVol(TPartie * Partie)
 {
-    (* Partie).Joueurs[(* Partie).joueurActuel].EstProtegeVol = true;
+    (* Partie).Joueurs[(* Partie).joueurActuel].estProtegeVol = true;
 }
 
 void ImmuniteDestr(TPartie * Partie)
 {
-    (* Partie).Joueurs[(* Partie).joueurActuel].EstProtegeDestr = true;
+    (* Partie).Joueurs[(* Partie).joueurActuel].estProtegeDestr = true;
 }
 
 void VolerCarteNum(TPartie * Partie, int numCarte, int numJoueur)

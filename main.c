@@ -4,12 +4,14 @@
 #include <string.h>
 #include <time.h>
 
+#include "types.c"
+#include "fonctions.c"
 #include "TPile.c"
-#include "SousFonctions.c"
 #include "creation.c"
+#include "SousFonctions.c"
+#include "FonctionsTour.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
-#include "FonctionsTour.c"
 #include "FonctionsTests.c"
 
 //Fonctions
@@ -33,4 +35,3 @@ int main(){
 
 
 //Définition des Fonctions
-

@@ -1,5 +1,7 @@
 #include "TPile.c"
 #include "SousFonctions.c"
+#include "FonctionsPouvoirs.c"
+#include "FonctionsEffets.c"
 #include <stdio>
 #include <stbool>
 
@@ -14,10 +16,15 @@
 
 void JouerCarte(TPartie * p, TCarte c)
 {
-    if()
+    if(c.type == 1) //Si la carte est de type Totem
     {
-        
+        Empiler(c, p.joueurActuel.totem);
+        EffetTotem(c, p);
     }
+    else{
+        EffetPouvoir(c, *p);
+    }
+
 }
 
 //************************************
@@ -120,8 +127,11 @@ void FinPartie(TPartie p)
 //************************************
 //Afficher une carte
 
-void Affichage()
+void Affichage(TCarte * c)
 {
+    printf("\n\n**********\n Carte %s**********", c.nom);
+    printf("\n DESCRIPTION :\n %s \n\n", c.desc);
+    printf("Type Carte : %d \n", c.type);
 
 }
 
@@ -158,7 +168,7 @@ void JouerTour(TPartie * p)
         {
             printf("%d", ent);
             //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-            //printf("%d", aux);
+            Affichage(aux);
             aux = ((*aux)).suivant;
             ent++;
         } 
@@ -176,6 +186,9 @@ void JouerTour(TPartie * p)
         if(trouve)
             {
             //AppelJouerCarte(p, aux)
+
+            //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
+
             }  ;
         case 2:
         PiocherCarte( *p, (p*).pioche, joueurActuel);

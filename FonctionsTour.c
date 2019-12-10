@@ -61,7 +61,8 @@ void FinPartie(TPartie p)
     //On verifie que l'etat est bien fini
     //Si pile vide
     if( (p.pioche).est_pile_vide())
-    {  //parcourir les joueurs
+    {  //parcourir les j Totem/
+oueurs
         while(!EtatFin)
        {
             cartes = CompteCartesMain(p, J)
@@ -101,15 +102,24 @@ void FinPartie(TPartie p)
         {
             cartes = CompteCartesMain(p, y);
             while(cartes > 0)
-            {
-                SupprimerCarteMain(p, cartes, y);
-                cartes --;
-            }
-            while(ComptePile(p.Joueurs[y].totem)>0)
-            {
-                depiler(p.Joueurs[y].totem);
-            }
-            desallouer((*)p.Joueurs[y].totem);
+            { Totem/
+
+                SupprimerCarteMain(p, car Totem/
+tes, y);
+                cartes --; Totem/
+
+            } Totem/
+
+            while(ComptePile(p.Joueurs[y] Totem/
+.totem)>0)
+            { Totem/
+
+                depiler(p.Joueurs[y].tote Totem/
+m);
+            } Totem/
+
+            desallouer((*)p.Joueurs[y].to Totem/
+tem);
             //Pointeur vers la pile attendu
         }
         //PIOCHE
@@ -127,7 +137,7 @@ void FinPartie(TPartie p)
 //************************************
 //Afficher une carte
 
-void Affichage(TCarte * c)
+void Affichage(TCarte c)
 {
     printf("\n\n**********\n Carte %s**********", c.nom);
     printf("\n DESCRIPTION :\n %s \n\n", c.desc);
@@ -168,7 +178,7 @@ void JouerTour(TPartie * p)
         {
             printf("%d", ent);
             //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-            Affichage(aux);
+            Affichage(*aux);
             aux = ((*aux)).suivant;
             ent++;
         } 
@@ -186,14 +196,16 @@ void JouerTour(TPartie * p)
         if(trouve)
             {
             //AppelJouerCarte(p, aux)
-
+            JouerCarte(p,(*aux)
             //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
+            
 
             }  ;
         case 2:
         PiocherCarte( *p, (p*).pioche, joueurActuel);
 
-        case 3:
+        case 3: Totem/
+
         printf("Quelle carte souhaitez vous défausser ?");
         ent = 1;
         while (aux!= NULL);

@@ -16,3 +16,8 @@ TCarte {char nom[25], char description[150], int icone, int pouvoir, int type}
 TPile {TElem * debut}
 TElem {TCarte elem, TElem * suivant}
 
+Fonctions : 
+TCarte TrouverCarteMain(TPartie Partie, int pos, int joueur) //Retourne une carte à une position dans une main d'un joueur
+void AjouterCarteMain(TPartie * Partie, TCarte carte, int joueur) //Ajoute une carte à la main d'un joueur
+void SupprimerCarteMain(TPartie * Partie, int pos, int joueur) //Supprime la carte d'une main d'un joueur à une position donnée.
+int CompteCartesMain(TPartie Partie, int joueur) // Retourne le nombre de carte d'une main d'un joueur

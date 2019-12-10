@@ -2,24 +2,22 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
-#include "creation.c"
 #include "TPile.c"
 #include "SousFonctions.c"
+#include "creation.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
 #include "FonctionsTour.c"
-
-//Permet de définir le type contenu dans la pile, pour ce programme. A voir si c'est utile de le garder ou non
-#undef TYPEPILE
-#define TYPEPILE TCarte
-
+#include "FonctionsTests.c"
 
 //Fonctions
 
 
 //Programme Principal
 int main(){
+    srand(time(NULL));
 
     TListeCarte liste;
     liste.debut = NULL;

@@ -28,6 +28,14 @@ int main(){
     libererListeCarte(&liste);
     printf("Si rien après ok");
 
+    TPartie Partie;
+
+    for(int i = 0; i < 3; i++)
+    {
+        printf("Nom joueur %d : ", i);
+
+    }
+
 	// CONTINUER LE PROGRAMME PRINCIPAL - FAIRE UN MENU
     scanf("%d");
     return 0;

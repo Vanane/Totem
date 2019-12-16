@@ -1,9 +1,9 @@
+#include <stdio.h>
+#include <stdbool.h>
 #include "TPile.c"
 #include "SousFonctions.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
-#include <stdio>
-#include <stbool>
 
 //************************************
 //       Procédure Jouer Carte
@@ -18,11 +18,11 @@ void JouerCarte(TPartie * p, TCarte c)
 {
     if(c.type == 1) //Si la carte est de type Totem
     {
-        Empiler(c, p.joueurActuel.totem);
+        Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
         EffetTotem(c, p);
     }
     else{
-        EffetPouvoir(c, *p);
+        EffetPouvoir(c, p);
     }
 
 }
@@ -34,6 +34,7 @@ void JouerCarte(TPartie * p, TCarte c)
 
 void PiocherCarte(TPartie * p, int joueur)
 {
+    //TODO: Remplacer pi par la pile du joueur actuel
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
     Depiler(pi);
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
@@ -60,11 +61,11 @@ void FinPartie(TPartie p)
 
     //On verifie que l'etat est bien fini
     //Si pile vide
-    if( (p.pioche).est_pile_vide())
+    if(EstPileVide(p.pioche))
     {  //parcourir les joueurs
         while(!EtatFin)
        {
-            cartes = CompteCartesMain(p, J)
+            cartes = CompteCartesMain(p, J);
             if(cartes == 0)
             {
                 EtatFin = true;

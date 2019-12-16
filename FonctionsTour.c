@@ -1,4 +1,5 @@
 #include "TPile.c"
+#include "types.c"
 #include "SousFonctions.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
@@ -14,17 +15,90 @@
  // s’ils en ont une. Dans ce cas, la dernière carte jouée est 
  //La carte est supprimée de la main du joueur dont c’est le tour à la fin.
 
-void JouerCarte(TPartie * p, TCarte c)
+void JouerCarte(TPile cartes, TPile joueursFauxPas,TPartie * p, TCarte c)
 {
-    if(c.type == 1) //Si la carte est de type Totem
-    {
-        Empiler(c, p.joueurActuel.totem);
-        EffetTotem(c, p);
-    }
-    else{
-        EffetPouvoir(c, *p);
+    int joueurActuel ;
+    TPile joueursFauxPas;
+    joueursFauxPas = pile_vide();
+    //Carte ajoutée à la pile des cartes jouées
+    //On appelle FauxPas
+    //On prend la pile de carte si son sommet est un faux pas -> annuler carte
+    //Si sommet(Pile) == FauxPas
+        //Depiler
+        //Sauvegarder Joueur
+        //Si sommet(Pile) == Faux pas
+            // Joueur pioche 2 cartes
+            //Depiler
+        //Sinon la carte est remise dans la main du joueur
+            //Changement du tour joueur
+    FauxPas( * p, cartes, joueursFauxPas);
+
+
+    while(!cartes.est_pile_vide()){
+        if(sommet(cartes).type==10)
+        {
+            cartes = depiler(cartes);
+            if(sommet(cartes).type==10)
+            {
+                PiocherCarte( *p, (p*).pioche, sommet(joueursFauxPas));
+                joueursFauxPas = depiler(joueursFauxPas);
+                if(c.type == 1) //Si la carte est de type Totem
+                {
+                    Empiler(c, p.joueurActuel.totem);
+                    EffetTotem(c, p);
+                }
+                else{
+                    EffetPouvoir(c, *p);
+                }
+            }else
+            {                
+                partie.ProchainJoueurs = sommet(cartes); //on veut récupérer le possesseur de la carte
+                ViderPile(cartes);
+                //TODO : Variable prochain joueur ?
+            }
+        }
     }
 
+    
+
+}
+
+void FauxPas( TPartie * partie, TPile cartes, TPile joueursFauxPas)
+{
+    //On demande a chaque joueurs si il veut jouer unfaux pas
+    // -> ajout carte a la pile
+    // -> Appel de la meme methode
+    char r;
+    for(int i =0; i<3; i++)
+    {
+        if(TrouverFauxPas(partie, i)<>!= NULL) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
+        {
+            printf("Voulez vous jouez une carte Faux Pas ? O/N");
+            do
+            {
+                scanf("%c",r);
+                if(r != 'O'&& r!= 'o' && r!= 'n' && r != 'N')
+                {
+                    printf("Erreur saisie ! ");
+                }
+            }while(r != 'O'&& r!= 'o' && r!= 'n' && r != 'N');
+            if(r == 'O' || r =='o')
+            {
+                joueursFauxPas = Empiler(i);
+                cartes = Empiler(TrouverFauxPas(partie, i));                
+                SupprimerCarteMain( p, Sommet(cartes), i);
+            }
+
+           /* if(reponse = true)
+            {
+                //On ajoute la carte fauxPas à la pile carteJouée
+                //Parcourir la main du joueur
+                //Si carte est de type 10
+                //SupprimerCarteMain
+                //AjouterCarteAPile
+            }*/
+        }
+    }
 }
 
 //************************************
@@ -38,6 +112,30 @@ void PiocherCarte(TPartie * p, int joueur)
     Depiler(pi);
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
     Depiler(pi);
+}
+
+
+
+//*********
+// Trouver Carte Faux pas
+//********
+TCarte TrouverFauxPas(TPartie * p, int joueur)
+{
+    //On parcourt les cartes de la main
+    // Si il y a des cartes de type Faux pas
+    // On retourne lE FAUXpAS
+    TCell * aux;
+    TCarte AFauxpas;
+    aux = (* p).Joueurs[(* p).joueur].main.debut;
+    while(aux != NULL || AFauxpas == NULL)
+    {
+        if(aux.type==10)
+        {
+            AFauxpas = aux;
+        }
+        aux = (*aux).suivant;
+    }
+    return AFauxpas;
 }
 
 //************************************
@@ -61,8 +159,7 @@ void FinPartie(TPartie p)
     //On verifie que l'etat est bien fini
     //Si pile vide
     if( (p.pioche).est_pile_vide())
-    {  //parcourir les j Totem/
-oueurs
+    {  //parcourir les joueurs
         while(!EtatFin)
        {
             cartes = CompteCartesMain(p, J)
@@ -102,30 +199,21 @@ oueurs
         {
             cartes = CompteCartesMain(p, y);
             while(cartes > 0)
-            { Totem/
-
-                SupprimerCarteMain(p, car Totem/
-tes, y);
-                cartes --; Totem/
-
-            } Totem/
-
-            while(ComptePile(p.Joueurs[y] Totem/
-.totem)>0)
-            { Totem/
-
-                depiler(p.Joueurs[y].tote Totem/
-m);
-            } Totem/
-
-            desallouer((*)p.Joueurs[y].to Totem/
-tem);
+            {
+                SupprimerCarteMain(p, cartes, y);
+                cartes --;
+            }
+            while(ComptePile(p.Joueurs[y].totem)>0)
+            {
+                depiler(p.Joueurs[y].totem);
+            }
+            desallouer((*)p.Joueurs[y].totem);
             //Pointeur vers la pile attendu
         }
         //PIOCHE
         while(!(p.pioche).est_pile_vide())
         {
-            depiler(p.pioche);
+            pioche = depiler(p.pioche);
         }
         desallouer((*)p.pioche);
     }
@@ -137,7 +225,7 @@ tem);
 //************************************
 //Afficher une carte
 
-void Affichage(TCarte c)
+void Affichage(TCarte * c)
 {
     printf("\n\n**********\n Carte %s**********", c.nom);
     printf("\n DESCRIPTION :\n %s \n\n", c.desc);
@@ -145,40 +233,26 @@ void Affichage(TCarte c)
 
 }
 
-//************************************
-//        Procédure Jouer Tour
-//************************************
+//******************
+// Choisir Cartes
+//******************
 
-
-void JouerTour(TPartie * p)
+TCarte ChoisirCarte(TPartie * p)
 {
-    //    LEXIQUE LOCAL
-    int choix;
-    int num;
-    int ent;
-    bool trouve;
     TCell * aux;
     TCell * prec;
+    int ent;
+    bool trouve = false;
 
-    //       DEBUT_cartes
-    printf("Quelle action souhaitez vous faire ? \n 1/Jouer une carte 2/Piocher deux cartes 3/Defausser une carte de votre main \n");
-    choix = SaisirEntre(1,3);
-    trouve = false;
-
-    //TODO: Comment est-ce qu'on récupère le joueur qui joue actuellement ?
-    aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
+     aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
     prec = (* p).Joueurs[(* p).joueurActuel].main.debut;
 
-    switch(choix)
-    {
-        case 1:
-        printf("Quelle carte voulez vous jouez ?");
         ent = 1;
         while (aux!= NULL)
         {
             printf("%d", ent);
             //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-            Affichage(*aux);
+            Affichage(aux);
             aux = ((*aux)).suivant;
             ent++;
         } 
@@ -196,44 +270,57 @@ void JouerTour(TPartie * p)
         if(trouve)
             {
             //AppelJouerCarte(p, aux)
-            JouerCarte(p,(*aux)
-            //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
-            
+                return aux;            
+            }  else{return 0;}        
+}
 
-            }  ;
+
+
+//************************************
+//        Procédure Jouer Tour
+//************************************
+
+
+void JouerTour(TPartie * p)
+{
+    //    LEXIQUE LOCAL
+    int choix;
+    int num;
+    TCarte carte;
+
+    TPile CartesJ;
+    CartesJ = PileVide()
+
+    //       DEBUT_cartes
+    printf("Quelle action souhaitez vous faire ? \n 1/Jouer une carte 2/Piocher deux cartes 3/Defausser une carte de votre main \n");
+    choix = SaisirEntre(1,3);
+    trouve = false;
+
+    //TODO: Comment est-ce qu'on récupère le joueur qui joue actuellement ?
+   
+
+    switch(choix)
+    {
+        case 1:
+            
+            printf("Quelle carte voulez vous jouez ?");
+             carte = ChoisirCarte(p);
+                 CartesJ.Empiler(carte);
+                jouerCarte(p, carte, cartesJ);
+            //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
+            break;
+        
         case 2:
         PiocherCarte( *p, (p*).pioche, joueurActuel);
+        break;
 
-        case 3: Totem/
-
-        printf("Quelle carte souhaitez vous défausser ?");
-        ent = 1;
-        while (aux!= NULL);
-        {
-            printf("%d", ent);
-         ComptePile(p.Joueurs[i].totem) en quelque chose qui affiche vraiment.
-         ComptePile(p.Joueurs[i].totem)
-         ComptePile(p.Joueurs[i].totem)
-         ComptePile(p.Joueurs[i].totem)
-        }ComptePile(p.Joueurs[i].totem)
-        nComptePile(p.Joueurs[i].totem)
-        eComptePile(p.Joueurs[i].totem)
-        wComptePile(p.Joueurs[i].totem)
-        {ComptePile(p.Joueurs[i].totem)
-            if(num==ent)
-            {
-                 trouve = true;
-            }
-            prec = aux;
-            aux = (*aux).suivant;
-            ent++;
-        }
-        if(trouve)
-        {
-            (*prec).suivant = (*aux).suivant;
-            free(aux);
-            aux = (*prec).suivant;
-        }; 
+        case 3: 
+                carte = ChoisirCarte(*p)
+                num = TrouverPositionCarte(&p, carte, joueurActuel);
+                SupprimerCarteMain(p, num, joueurActuel );
+        
+                break;
+        
         default: printf("Erreur saisie");
     }
 }

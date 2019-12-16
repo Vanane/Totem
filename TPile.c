@@ -69,7 +69,13 @@ void AfficherPile(TPile P){
   printf("\n");
 }
 */
-
+void ViderPile(TPile * p)
+{
+  while(!EstPileVide(&p))
+  {
+    Depiler(&p);
+  }
+}
 
 void DesallouerPile(TPile * P){
   //Désalloue une pile de la mémoire

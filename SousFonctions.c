@@ -46,6 +46,20 @@ TCarte TrouverCarteMain(TPartie Partie, int pos, int joueur) //Retourne une cart
     return (* aux).carte;
 }
 
+int TrouverPositionCarte(TPartie Partie, TCarte carte, int joueur)
+{
+    TCell * aux;
+    int count = 0;
+    aux = Partie.Joueurs[joueur].main.debut;
+    while(aux!= carte)
+    {
+        aux = (*aux).suivant;
+        count++;
+    }
+    return count;
+
+}
+
 void AjouterCarteMain(TPartie * Partie, TCarte carte, int joueur) //Ajoute une carte à la main d'un joueur
 {
     TCell * new;

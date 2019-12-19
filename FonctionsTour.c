@@ -1,10 +1,10 @@
+#include <stdio.h>
+#include <stdbool.h>
 #include "TPile.c"
 #include "types.c"
 #include "SousFonctions.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
-#include <stdio>
-#include <stbool>
 
 //************************************
 //       Procédure Jouer Carte
@@ -108,6 +108,7 @@ void FauxPas( TPartie * partie, TPile cartes, TPile joueursFauxPas)
 
 void PiocherCarte(TPartie * p, int joueur)
 {
+    //TODO: Remplacer pi par la pile du joueur actuel
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
     Depiler(pi);
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
@@ -158,11 +159,11 @@ void FinPartie(TPartie p)
 
     //On verifie que l'etat est bien fini
     //Si pile vide
-    if( (p.pioche).est_pile_vide())
+    if(EstPileVide(p.pioche))
     {  //parcourir les joueurs
         while(!EtatFin)
        {
-            cartes = CompteCartesMain(p, J)
+            cartes = CompteCartesMain(p, J);
             if(cartes == 0)
             {
                 EtatFin = true;

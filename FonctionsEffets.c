@@ -13,18 +13,23 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         case 1: {
             //Coyote
             int idJ;
-            bool Refus, Immunise;
-            do{
-                Refus = false;                
-                idJ = SaisirEntre(-1, 2);
-                if(idJ == -1)
-                    Refus = true;
-                else
-                    Immunise = (* Partie).Joueurs[idJ].estProtegeVol;
-            } while(((* Partie).joueurActuel == idJ || Immunise) && !Refus);
+            bool Immunise;
+            bool Voler = SaisirReponse("Voulez-vous voler un joueur ?");
             
-            if(!Refus)
-            VolerTotem(Partie, idJ);
+            if(Voler)
+            {
+                printf("Quel joueur voulez-vous voler ?\n Joueur : ");
+                
+                do{
+                    //Tant que le joueur choisi est immunisé ou est le joueur actuel :
+                idJ = SaisirEntre(0, 2); //Demander le joueur à voler
+                    Immunise = (* Partie).Joueurs[idJ].estProtegeVol; //On regarde si le joueur choisi est immunisé
+
+                if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
+                    printf("Vous ne pouvez pas vous voler !");
+                }while((* Partie).joueurActuel == idJ || Immunise);            
+                VolerTotem(Partie, idJ);
+            }
         }               
         break;
         case 2:{
@@ -34,12 +39,20 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         break;
         case 3:{
             //Loup
+            int idJ;
             bool Voler = SaisirReponse("Voulez-vous voler un joueur ?");
             
             if(Voler)
             {
                 printf("Quel joueur voulez-vous voler ?\n Joueur : ");
-                int idJ = SaisirEntre(0,2);
+
+                do{
+                    //Tant que le joueur choisi est le joueur actuel :
+                    idJ = SaisirEntre(0, 2); //Demander le joueur à voler
+                if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
+                    printf("Vous ne pouvez pas vous voler !");
+                }while((* Partie).joueurActuel == idJ);            
+
                 for(int i = 0; i < 2; i++)
                 {
                     int r = Random(1, CompteCartesMain(* Partie, idJ));
@@ -50,11 +63,19 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         break;
         case 4:{
             //Corbeau
-            bool Echanger = SaisirReponse("Voulez-vous voler un joueur ?");
-
+            int idJ;
+            bool Echanger = SaisirReponse("Voulez-vous échanger votre main avec un joueur ?");
             if(Echanger)
             {
                 printf("Avec quel joueur voulez-vous échanger vos cartes ?");
+
+                do{
+                    //Tant que le joueur choisi est le joueur actuel :
+                    idJ = SaisirEntre(0, 2); //Demander le joueur à voler
+                if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
+                    printf("Vous ne pouvez pas vous voler !");
+                }while((* Partie).joueurActuel == idJ);            
+
                 int idJ = SaisirEntre(0,2);
                 EchangerMain(Partie, idJ);
             }
@@ -72,11 +93,20 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         break;
         case 7:{
             //Ours
+            int idJ;
             bool Detruire = SaisirReponse("Voulez-vous Detruire un joueur ?");
             
             if(Detruire)
             {
                 printf("Quel joueur voulez-vous Detruire ?\n Joueur : ");
+
+                do{
+                    //Tant que le joueur choisi est le joueur actuel :
+                idJ = SaisirEntre(0, 2); //Demander le joueur à voler
+                if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
+                    printf("Vous ne pouvez pas vous auto-detruire !");
+                }while((* Partie).joueurActuel == idJ);
+
                 int idJ = SaisirEntre(0,2);
                 DetruireEtage(Partie, idJ);
             }

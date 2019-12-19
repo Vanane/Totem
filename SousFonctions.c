@@ -46,6 +46,19 @@ TCarte TrouverCarteMain(TPartie Partie, int pos, int joueur) //Retourne une cart
     return (* aux).carte;
 }
 
+TCarte TrouverCarteListe(TListeCarte l, int pos)
+{
+    TCell * aux;
+    int count = 1;
+    aux = l.debut;
+    while(count < pos)
+    {
+        aux = (* aux).suivant;
+        count++;
+    }
+    return (* aux).carte;
+}
+
 int TrouverPositionCarte(TPartie Partie, TCarte carte, int joueur)
 {
     TCell * aux;
@@ -68,6 +81,16 @@ void AjouterCarteMain(TPartie * Partie, TCarte carte, int joueur) //Ajoute une c
     (* new).suivant = (*Partie).Joueurs[joueur].main.debut;
     (*Partie).Joueurs[joueur].main.debut = new;
 }
+
+void AjouterCarteliste(TCarte carte, TListeCarte l) //Ajoute une carte à la main d'un joueur
+{
+    TCell * new;
+    new = malloc(sizeof(TCell));
+    (* new).carte = carte;
+    (* new).suivant = l.debut;
+    l.debut = new;
+}
+
 
 int CompteCartesMain(TPartie Partie, int joueur) // Retourne le nombre de carte d'une main d'un joueur
 {
@@ -108,6 +131,30 @@ void SupprimerCarteMain(TPartie * Partie, int pos, int joueur) //Supprime la car
     if(prec == aux)
     {
         (* Partie).Joueurs[joueur].main.debut = (* aux).suivant;
+    }
+    else
+    {
+        (* prec).suivant = (* aux).suivant;
+    }
+    free(aux);
+}
+
+void SupprimerAPosition(TListeCarte l, int pos)
+{
+    TCell * aux, * prec;
+    int count = 1;
+    prec = l.debut;
+    aux = l.debut;
+
+    while(count < pos)
+    {
+        prec = aux;
+        aux = (* aux).suivant;
+        count++;
+    }
+    if(prec == aux)
+    {
+        l.debut = (* aux).suivant;
     }
     else
     {

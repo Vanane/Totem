@@ -25,18 +25,22 @@ int main(){
     liste.debut = NULL;
     creerListeCarte(&liste);
     afficherListeCarte(liste);
-    libererListeCarte(&liste);
-    printf("Si rien après ok");
-
+    
     TPartie Partie;
 
-    for(int i = 0; i < 3; i++)
+    creerPartieAlt(&Partie, &liste);
+
+    for(int i = 0; i < 2; i++)
     {
-        printf("Nom joueur %d : ", i);
+        printf("Nom joueur %d : ", i+1);
+        
 
     }
 
 	// CONTINUER LE PROGRAMME PRINCIPAL - FAIRE UN MENU
+
+    libererListeCarte(&liste);
+
     scanf("%d");
     return 0;
 }

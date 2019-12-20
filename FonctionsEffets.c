@@ -83,7 +83,7 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         break;
         case 5:{
             //Lynx
-            //TODO: l'effet se triger à chaque fin de tour, le faire dans une autre fonction incluse dans JouerTour ?
+            //TODO: l'effet se trigger à chaque fin de tour, le faire dans une autre fonction incluse dans JouerTour ?
         }
         break;
         case 6:{

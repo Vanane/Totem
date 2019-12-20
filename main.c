@@ -19,17 +19,14 @@
 
 //Programme Principal
 int main(){
-    srand(time(NULL));
 
     TListeCarte liste;
     liste.debut = NULL;
     creerListeCarte(&liste);
-    afficherListeCarte(liste);
-    libererListeCarte(&liste);
-    printf("Si rien après ok");
+    TPartie Partie;
+    creerPartie(&Partie,&liste);
 
-	// CONTINUER LE PROGRAMME PRINCIPAL - FAIRE UN MENU
-    scanf("%d");
+    
     return 0;
 }
 

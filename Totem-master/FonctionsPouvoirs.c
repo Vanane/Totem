@@ -17,17 +17,8 @@ void EffetPouvoir(TCarte Carte, TPartie * Partie)
         break;
         case 9:{
             //Bison Dingo
-            int idJ;
-            
             printf("Quel joueur voulez-vous Detruire ?\n Joueur : ");
-
-            do{
-                //Tant que le joueur choisi est le joueur actuel :
-                idJ = SaisirEntre(0, 2); //Demander le joueur à voler
-            if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
-                printf("Vous ne pouvez pas vous auto-détruire !");
-            }while((* Partie).joueurActuel == idJ);            
-
+            int idJ = SaisirEntre(0,2);
             DetruireEtage(Partie, idJ);
         }
         break;
@@ -40,42 +31,19 @@ void EffetPouvoir(TCarte Carte, TPartie * Partie)
         case 11:{
             //Pillage
             //Voler un totem et mettre la carte dans la main du voleur. Si son nbTotem < 4, rejouer.
-            int idJ;
-            
-            printf("Quel joueur voulez-vous voler ?\n Joueur : ");
-
-            do{
-                //Tant que le joueur choisi est le joueur actuel :
-                idJ = SaisirEntre(0, 2); //Demander le joueur à voler
-            if((* Partie).joueurActuel == idJ) //Si le joueur choisi est lui-même, on dit non.
-                printf("Vous ne pouvez pas vous voler !");
-            }while((* Partie).joueurActuel == idJ);            
-
-            CartePillage(Partie, idJ);
+            printf("Quel joueur voulez-vous voler ? \n");
+            int victime = SaisirEntre(0,2);
+            CartePillage(Partie, victime);
         }
         break;
         case 12: {
             //Cadeau
-            //Voler un totem et le donner à un adversaire, puis piocher une carte.            
-            int victime, gagnant;
-            printf("Quel joueur voulez-vous voler ?\n Joueur : ");
-
-            do{
-                //Tant que le joueur choisi est le joueur actuel :
-                victime = SaisirEntre(0, 2); //Demander le joueur à voler
-            if((* Partie).joueurActuel == victime) //Si le joueur choisi est lui-même, on dit non.
-                printf("Vous ne pouvez pas vous voler !");
-            }while((* Partie).joueurActuel == victime);        
-
+            //Voler un totem et le donner à un adversaire, puis piocher une carte.
+            printf("Quel joueur voulez-vous voler ? \n");
+            int victime = SaisirEntre(0,2);
             printf("A qui voulez-vous donner le totem volé ? \n");
+            int gagnant = SaisirEntre(0,2);
 
-            do{
-                //Tant que le joueur choisi est le joueur actuel :
-                gagnant = SaisirEntre(0, 2); //Demander le joueur à voler
-            if((* Partie).joueurActuel == gagnant) //Si le joueur choisi est lui-même, on dit non.
-                printf("Vous ne pouvez pas vous voler !");
-            }while((* Partie).joueurActuel == gagnant);            
-    
             CadeauTotem(Partie, victime, gagnant);
         }
         break;
@@ -84,7 +52,7 @@ void EffetPouvoir(TCarte Carte, TPartie * Partie)
             for(int i = 0; i < 2; i++)
             {
                 PiocherCarte(Partie, (* Partie).joueurActuel);
-                (* Partie).prochainJoueur = (* Partie).joueurActuel;
+                //TODO : Faire rejouer le joueur
             }
             //Piocher 2 cartes et rejouer immédiatement.
         }
@@ -129,6 +97,6 @@ void CartePillage(TPartie * Partie, int joueurVictime)
 
     if(ComptePile((* Partie).Joueurs[(* Partie).joueurActuel].totem) < 4)
     {
-        (* Partie).prochainJoueur = (* Partie).joueurActuel;
+        //Si longueur Totem < 4, alors faire rejouer le joueur.
     }
 }

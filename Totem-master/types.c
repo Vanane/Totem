@@ -18,20 +18,6 @@ typedef struct _TListeCarte
 	TCell * debut;  // liste TRIEE sur le nom et prénom des étudiants
 } TListeCarte;
 
-typedef struct __TJoueur{
-		char nom[16];
-		TListeCarte main;
-		int score;
-		TPile totem;
-}TJoueur;
-
-typedef struct _TPartie
-{
-	TJoueur Joueurs[3];
-	TPile pioche;
-	int joueurActuel;
-}TPartie;
-
 typedef struct _TElem{
   TCarte elem;
   struct _TElem * suivant;
@@ -40,3 +26,22 @@ typedef struct _TElem{
 typedef struct _TPile{
   TElem * debut;
 }TPile;
+
+typedef struct __TJoueur{
+		char nom[16];
+		TListeCarte main;
+		int score;
+		TPile totem;
+		bool estProtegeVol;
+		bool estProtegeDestr;
+
+}TJoueur;
+
+typedef struct _TPartie
+{
+	TJoueur Joueurs[3];
+	TPile pioche;
+	int joueurActuel;
+	int prochainJoueur;
+}TPartie;
+

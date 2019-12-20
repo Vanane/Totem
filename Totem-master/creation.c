@@ -8,47 +8,13 @@
 // **************************
 
 void creerListeCarte (TListeCarte * liste);
-
-void creerPartie(TPartie * Partie, TListeCarte * liste);
-
+//void creerPartie(TPartie * Partie)
 void afficherListeCarte(TListeCarte liste);
 void libererListeCarte (TListeCarte * liste);
 void creerPileCarte(TListeCarte * liste, TPile * pioche);
 int nbalea (int min, int max);
 void supprimerListeCarte (TListeCarte * liste , int i);
 TCarte rechercheCarte(TListeCarte liste, int i);
-
-
-//Procédure pour créer la partie
-void creerPartie(TPartie * Partie, TListeCarte * liste)
-
-{
-	TPile * pointeurVersPile;
-
-	creerPileCarte(liste, pointeurVersPile);
-	(* Partie).pioche = (* pointeurVersPile);
-	free(pointeurVersPile);
-
-	(* Partie).joueurActuel = 0;
-	(* Partie).prochainJoueur = 1;
-
-	for(int i = 0; i < 3; i++)
-	{
-
-		printf ("Veuillez saisir le nom d'un joueur (max 16char)");
-		scanf("(%s)\n", (* Partie).Joueurs[i].nom);
-		for(int j = 0; j < 5; j++)
-		{
-			AjouterCarteMain( p, Sommet((*p).pioche), joueur);
-		}
-
-		(* Partie).Joueurs[i].score = 0;
-		(* Partie).Joueurs[i].totem = PileVide();
-		(* Partie).Joueurs[i].estProtegeVol = false;
-		(* Partie).Joueurs[i].estProtegeDestr = false;
-		(* Partie).Joueurs[i].estEffetLynx = false;
-	}
-}
 
 // procédure pour créer la liste
 void creerListeCarte (TListeCarte * liste)

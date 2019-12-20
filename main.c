@@ -26,17 +26,13 @@ int main() {
 	TPartie Partie;
 	creerPartie(&Partie, &liste);
 
-	while (EstPileVide(Partie.pioche) == false AND ComptePile((*Partie).Joueur[0].Totem) != 6 AND ComptePile((*Partie).Joueur[1].Totem) != 6 AND ComptePile((*Partie).Joueur[2].Totem) != 6)){
-
+	while (EstPileVide(Partie.pioche) == false &&
+        ComptePile(Partie.Joueurs[0].totem) != 6 &&
+        ComptePile(Partie.Joueurs[1].totem) != 6 &&
+        ComptePile(Partie.Joueurs[2].totem) != 6)
+    {
 		JouerTour(&Partie);
-		Partie.joueurActuel++;
-		if (Partie.joueurActuel = 3) {
-			Partie.joueurActuel = 0;
-		}
-		Partie.prochainJoueur++;
-		if (Partie.prochainJoueur = 3) {
-			Partie.prochainJoueur = 0;
-		}
+		Partie.joueurActuel = (Partie.joueurActuel + 1) % 3;        
 	}
 	FinPartie(&Partie);
     

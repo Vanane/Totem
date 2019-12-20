@@ -38,7 +38,7 @@ void creerPartie(TPartie * Partie, TListeCarte * liste)
 		scanf("(%s)\n", (* Partie).Joueurs[i].nom);
 		for(int j = 0; j < 5; j++)
 		{
-			AjouterCarteMain( p, Sommet((*p).pioche), joueur);
+			PiocherCarte(Partie, i);
 		}
 
 		(* Partie).Joueurs[i].score = 0;

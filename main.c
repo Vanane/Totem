@@ -12,7 +12,6 @@
 #include "FonctionsTour.c"
 #include "FonctionsPouvoirs.c"
 #include "FonctionsEffets.c"
-#include "FonctionsTests.c"
 
 //Fonctions
 

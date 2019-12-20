@@ -33,13 +33,13 @@ void creerPartie(TPartie * Partie, TListeCarte * liste)
 		(* Partie).Joueurs[i].estProtegeVol = false;
 		(* Partie).Joueurs[i].estProtegeDestr = false;
 		(* Partie).Joueurs[i].estEffetLynx = false;
+		(* Partie).Joueurs[i].main.debut = NULL;
 
 		for (int j = 0; j < 5; j++)
 		{
 			PiocherCarte(Partie, i);
 		}
 	}
-
 }
 
 // procédure pour créer la liste

@@ -46,22 +46,13 @@ void JouerCarte(TPartie * p, TCarte c)
                 PiocherCarte(p, joueursFauxPas[pointeurVersCase]);
                 PiocherCarte(p, joueursFauxPas[pointeurVersCase]);
                 pointeurVersCase--;
-                if(c.type == 1) //Si la carte est de type Totem
-                {
-                    (* p).Joueurs[(* p).joueurActuel].totem = Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
-                    EffetTotem(c, p);
-                }
-                else
-                {
-                    EffetPouvoir(c, p);
-                }
-            }
+            }            
             else
             {                
                 (* p).prochainJoueur = pointeurVersCase; //on veut récupérer le possesseur de la carte
-                cartes = Depiler(cartes);
                 //TODO : Variable prochain joueur ?
             }
+            cartes = Depiler(cartes);
         }
         else
         {
@@ -72,6 +63,7 @@ void JouerCarte(TPartie * p, TCarte c)
             }
             else
                 EffetPouvoir(c, p);
+            cartes = Depiler(cartes);
         }
     }
     ViderPile(&cartes);
@@ -93,7 +85,8 @@ void FauxPas(TPartie * partie, TPile * cartes, int joueurs[3], int pntVersJ)
             {
                 if(PossedeFauxPas(* partie, i)) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
                 {
-                    r = SaisirReponse("Voulez vous jouez une carte Faux Pas ?\n");
+                    printf("Joueur %d : ", i+1);
+                    r = SaisirReponse("Voulez vous jouez une carte Faux Pas ? o/n\n");
                     if(r)
                     {
                         ajoutFauxPas = true;
@@ -142,8 +135,6 @@ void PiocherCarte(TPartie * p, int joueur)
     AjouterCarteMain( p, Sommet((*p).pioche), joueur);
     (*p).pioche = Depiler((*p).pioche);
 }
-
-
 
 //*********
 // Trouver Carte Faux pas
@@ -209,9 +200,9 @@ bool FinPartie(TPartie * p)
 
 void AfficherCarte(TCarte c)
 {
-	printf("\n\n**********\n Carte %s**********", c.nom);
-	printf("\n DESCRIPTION :\n %s \n\n", c.desc);
-	printf("Type Carte : %d \n", c.type);
+	printf("Carte %s\n", c.nom);
+	/*printf("\n DESCRIPTION :\n %s \n\n", c.desc);
+	printf("Type Carte : %d \n", c.type);*/
 }
 
 void AfficherMain(TPartie p, int joueur)
@@ -219,13 +210,24 @@ void AfficherMain(TPartie p, int joueur)
     TCell * aux;
     aux = p.Joueurs[joueur].main.debut;
     int count = 1;
-    while (aux!= NULL)
+    while (aux != NULL)
     {
         printf("carte %d : ", count);
         AfficherCarte((* aux).carte);
         aux = ((*aux)).suivant;
         count++;
     } 
+}
+
+//Afficher un Totem
+void AfficherTotem(TPartie p, int joueur)
+{
+    printf("Totem joueur %d :\n", joueur);
+    while(!EstPileVide(p.Joueurs[joueur].totem))
+    {
+        printf("%s\n", Sommet(p.Joueurs[joueur].totem).nom);
+        p.Joueurs[joueur].totem = Depiler(p.Joueurs[joueur].totem);
+    }
 }
 
 TCarte ChoisirCarte(TPartie * p)
@@ -273,8 +275,9 @@ void JouerTour(TPartie * p)
     (* p).prochainJoueur = ((* p).joueurActuel + 1) % 3;
 
     //       DEBUT_cartes
-	printf("Voici votre main : ");
+	printf("Main du joueur %d : ", (* p).joueurActuel);
 	AfficherMain((*p), (*p).joueurActuel);
+    AfficherTotem((*p), (*p).joueurActuel);
     printf("Quelle action souhaitez vous faire ? \n\t1/Jouer une carte\n\t2/Piocher deux cartes\n\t3/Defausser une carte de votre main \n");
     choix = SaisirEntre(1,3);
 

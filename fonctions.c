@@ -26,6 +26,7 @@ bool PossedeFauxPas(TPartie p, int joueur);
 bool FinPartie(TPartie * p);
 void AfficherCarte(TCarte c);
 void AfficherMain(TPartie p, int joueur);
+void AfficherTotem(TPartie p, int joueur);
 TCarte ChoisirCarte(TPartie * p);
 void JouerTour(TPartie * p);
 

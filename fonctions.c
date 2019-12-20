@@ -26,6 +26,7 @@ void JouerTour(TPartie * p);
 
 
 /* FonctionsPouvoirs */
+void EffetPouvoir(TCarte Carte, TPartie * Partie);
 void IntervertirTotems(TPartie * Partie);
 void CartePillage(TPartie * Partie, int joueurPille);
 void CadeauTotem(TPartie * Partie, int vitime, int gagnant);

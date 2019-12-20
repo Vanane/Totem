@@ -34,7 +34,7 @@ typedef struct __TJoueur{
 		TPile totem;
 		bool estProtegeVol;
 		bool estProtegeDestr;
-
+		bool estEffetLynx;
 }TJoueur;
 
 typedef struct _TPartie
@@ -44,4 +44,3 @@ typedef struct _TPartie
 	int joueurActuel;
 	int prochainJoueur;
 }TPartie;
-

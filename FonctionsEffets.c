@@ -8,7 +8,7 @@ void VolerCarteNum(TPartie * Partie, int numCarte, int numJoueur);
 
 void EffetTotem(TCarte Carte, TPartie * Partie)
 {
-    switch(Carte.type)
+    switch(Carte.pouvoir)
     {
         case 1: {
             //Coyote
@@ -113,7 +113,7 @@ void EffetTotem(TCarte Carte, TPartie * Partie)
         }
         break;
         default:{
-            printf("La carte donnée en paramètre d'EffetTotem (id : %d) n'est pas reconnue comme totem.", Carte.type);
+            printf("La carte donnée en paramètre d'EffetTotem (id : %d) n'est pas reconnue comme totem.", Carte.pouvoir);
         }
         break;
     }

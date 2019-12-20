@@ -1,10 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "TPile.c"
-#include "types.c"
-#include "SousFonctions.c"
-#include "FonctionsPouvoirs.c"
-#include "FonctionsEffets.c"
 
 //************************************
 //       Procédure Jouer Carte
@@ -15,13 +10,16 @@
  // s’ils en ont une. Dans ce cas, la dernière carte jouée est 
  //La carte est supprimée de la main du joueur dont c’est le tour à la fin.
 
-void JouerCarte(TPile joueursFauxPas,TPartie * p, TCarte c)
+void JouerCarte(TPartie * p, TCarte c)
 {
-    int joueurActuel ;
-    TPile joueursFauxPas;
+    int joueurActuel;
+    int joueursFauxPas[3]; //Contient l'ordre des joueurs qui posent les cartes
+    int pointeurVersCase = 0; //Permet de savoir quelle case regarder pour traiter chaque carte
+    TPile cartes;
 
-    joueursFauxPas = PileVide();
-    TPile * cartes = PileVide();
+    joueursFauxPas[0] = (* p).joueurActuel;
+
+    cartes = PileVide();
     cartes = Empiler(c, cartes);
 
     //Carte ajoutée à la pile des cartes jouées
@@ -36,31 +34,32 @@ void JouerCarte(TPile joueursFauxPas,TPartie * p, TCarte c)
         //Sinon la carte est remise dans la main du joueur
             //Changement du tour joueur
     
-    FauxPas(* p, cartes, joueursFauxPas);
+    FauxPas(p, &cartes, joueursFauxPas, pointeurVersCase);
 
-    while(!cartes.EstPileVide()){
-        if(sommet(* cartes).type==10) // Si c'est un Faux Pas
+    while(!EstPileVide(cartes))
+    {
+        if(Sommet(cartes).type==10) // Si c'est un Faux Pas
         {
-            * cartes = Depiler(* cartes);
-            if(sommet(* cartes).type==10) //Si la carte en-dessous est un Faux Pas
+            cartes = Depiler(cartes);
+            if(Sommet(cartes).type==10) //Si la carte en-dessous est un Faux Pas
             {
-                PiocherCarte( * p, (* p).pioche, sommet(joueursFauxPas));
-                PiocherCarte( * p, (* p).pioche, sommet(joueursFauxPas));
-                joueursFauxPas = depiler(joueursFauxPas);
+                PiocherCarte(p, joueursFauxPas[pointeurVersCase]);
+                PiocherCarte(p, joueursFauxPas[pointeurVersCase]);
+                pointeurVersCase--;
                 if(c.type == 1) //Si la carte est de type Totem
                 {
-                    Empiler(c, p.joueurActuel.totem);
-                    EffetTotem(c, * p);
+                    (* p).Joueurs[(* p).joueurActuel].totem = Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
+                    EffetTotem(c, p);
                 }
                 else
                 {
-                    EffetPouvoir(c, * p);
+                    EffetPouvoir(c, p);
                 }
             }
             else
             {                
-                partie.prochainJoueur = sommet(cartes); //on veut récupérer le possesseur de la carte
-                ViderPile(cartes);
+                (* p).prochainJoueur = pointeurVersCase; //on veut récupérer le possesseur de la carte
+                cartes = Depiler(cartes);
                 //TODO : Variable prochain joueur ?
             }
         }
@@ -69,39 +68,45 @@ void JouerCarte(TPile joueursFauxPas,TPartie * p, TCarte c)
             if(c.type == 1) //Si la carte est de type Totem
             {
                 (* p).Joueurs[(* p).joueurActuel].totem = Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
-                EffetTotem(c, * p);
+                EffetTotem(c, p);
             }
             else
-                EffetPouvoir(c, * p);
+                EffetPouvoir(c, p);
         }
     }
+    ViderPile(&cartes);
 }
 
-void FauxPas( TPartie * partie, TPile * cartes, int joueurs[3])
+void FauxPas(TPartie * partie, TPile * cartes, int joueurs[3], int pntVersJ)
 {
-    //TODO: TPile c'est pour les cartes. il faut trouver un autre moyen pour faire une pile d'entiers ou un tableau.
     //On demande a chaque joueurs si il veut jouer unfaux pas
     //On le demande tant qu'il y a des joueurs qui peuvent jouer, et qu'au moins une carte a été posée à la dernière boucle.
     // -> ajout carte a la pile
     // -> Appel de la meme methode
-    bool r;
-    for(int i =0; i<3; i++)
+    bool r, ajoutFauxPas;
+    do
     {
-        if(i != ( *p).joueurActuel)
+        ajoutFauxPas = false;
+        for(int i =0; i<3; i++)
         {
-            if(TrouverFauxPas(partie, i) != NULL) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
+            if(i != (* partie).joueurActuel)
             {
-                printf("Voulez vous jouez une carte Faux Pas ?\n");
-                r = SaisirReponse();
-                if(r)
+                if(PossedeFauxPas(* partie, i)) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
                 {
-                    joueursFauxPas = Empiler(i);
-                    cartes = Empiler(TrouverFauxPas(partie, i));                
-                    SupprimerCarteMain(p, Sommet(cartes), i);
+                    r = SaisirReponse("Voulez vous jouez une carte Faux Pas ?\n");
+                    if(r)
+                    {
+                        ajoutFauxPas = true;
+                        joueurs[pntVersJ] = i;
+                        //TODO: Empiler le Faux Pas du joueur i
+                        int posFauxPas = TrouverPositionCarteParID(* partie, 10, i);
+                        * cartes = Empiler(TrouverCarteMain(* partie, posFauxPas, i), * cartes);
+                        SupprimerCarteMain(partie, posFauxPas, i);
+                    }
                 }
             }
         }
-    }
+    }while(ajoutFauxPas);
 }
 
 
@@ -109,26 +114,20 @@ void ExecuterLynx(TPartie * p)
 {
     int pos;
     //Exécute l'effet Lynx, si le joueur est propice.
-    if((* p).Joueurs[(* p).joueurActuel].estEffetlynx)
+    if((* p).Joueurs[(* p).joueurActuel].estEffetLynx)
     {
-        TListeCarte cartesPiochees;
+        TCarte cartesPiochees[3];
         for(int i = 0; i < 3; i++)
         {
-            AjouterCarteliste(Sommet((* p).pioche), cartesPiochees);
+            cartesPiochees[i] = Sommet((* p).pioche);
             AfficherCarte(Sommet((* p).pioche));
             (*p).pioche = Depiler((*p).pioche);
         }
 
         printf("Quelle carte souhaitez-vous conserver ?\n");
-        pos = SaisirEntre(1,3);
+        pos = SaisirEntre(0,2);
 
-        for(int i = 1; i < 4; i++)
-        {
-            if(i != pos)
-                SupprimerAPosition(cartesPiochees, i);
-        }
-        AjouterCarteMain(p, cartesPiochees.debut.carte, (* p).joueurActuel);
-        SupprimerAPosition(cartesPiochees, 1); //TODO: Position 0 ou 1 ?
+        AjouterCarteMain(p, cartesPiochees[pos], (* p).joueurActuel);
     }
 }
 
@@ -149,23 +148,23 @@ void PiocherCarte(TPartie * p, int joueur)
 //*********
 // Trouver Carte Faux pas
 //********
-TCarte TrouverFauxPas(TPartie * p, int joueur)
+bool PossedeFauxPas(TPartie p, int joueur)
 {
-    //On parcourt les cartes de la main
-    // Si il y a des cartes de type Faux pas
-    // On retourne lE FAUXpAS
     TCell * aux;
-    TCarte AFauxpas;
-    aux = (* p).Joueurs[(* p).joueur].main.debut;
-    while(aux != NULL || AFauxpas == NULL)
+    bool ret;
+    
+    aux = p.Joueurs[p.joueurActuel].main.debut;
+    ret = false;
+
+    while(aux != NULL && !ret)
     {
-        if(aux.type==10)
-        {
-            AFauxpas = aux;
-        }
-        aux = (*aux).suivant;
+        if((* aux).carte.pouvoir == 10)
+            ret = true;
+        else
+            aux = (* aux).suivant;
     }
-    return AFauxpas;
+
+    return ret;
 }
 
 //************************************
@@ -271,37 +270,30 @@ TCarte ChoisirCarte(TPartie * p)
 {
     TCell * aux;
     TCell * prec;
-    int ent;
+    int nbCartesMain, count;
     bool trouve = false;
 
-     aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
-    prec = (* p).Joueurs[(* p).joueurActuel].main.debut;
+    aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
 
-        ent = 1;
-        while (aux!= NULL)
-        {
-            printf("%d", ent);
-            //TODO: Changer le printf(aux) en quelque chose qui affiche vraiment.
-            AfficherCarte(* aux);
-            aux = ((*aux)).suivant;
-            ent++;
-        } 
-        num = SaisirEntre(1,ent);
-        ent = 1;
-        while (aux!= NULL && !trouve);
-        {
-            if(num==ent)
-            {
-            trouve = true;
-            }
-            aux = ((*aux)).suivant;
-            ent++;
-        }
-        if(trouve)
-            {
-            //AppelJouerCarte(p, aux)
-                return aux;            
-            }  else{return 0;}        
+    nbCartesMain = CompteCartesMain(* p, (* p).joueurActuel);
+    count = 1;
+    while (aux!= NULL)
+    {
+        printf("carte %d : ", count);
+        AfficherCarte((* aux).carte);
+        aux = ((*aux)).suivant;
+        count++;
+    } 
+
+    count = SaisirEntre(1,nbCartesMain);
+
+    aux = (* p).Joueurs[(* p).joueurActuel].main.debut;
+
+    for(int i = 1; i < count; i++)
+    {
+        aux = ((*aux)).suivant;
+    }
+    return (* aux).carte;
 }
 
 
@@ -318,18 +310,13 @@ void JouerTour(TPartie * p)
     int num;
     TCarte carte;
 
-    TPile CartesJ;
-    CartesJ = PileVide()
-
     (* p).prochainJoueur = ((* p).joueurActuel + 1) % 3;
 
     //       DEBUT_cartes
     printf("Quelle action souhaitez vous faire ? \n\t1/Jouer une carte\n\t2/Piocher deux cartes\n\t3/Defausser une carte de votre main \n");
     choix = SaisirEntre(1,3);
-    trouve = false;
 
     //TODO: Comment est-ce qu'on récupère le joueur qui joue actuellement ?
-   
 
     switch(choix)
     {
@@ -337,24 +324,20 @@ void JouerTour(TPartie * p)
             
             printf("Quelle carte voulez vous jouez ?");
             carte = ChoisirCarte(p);
-            CartesJ.Empiler(carte);
-            JouerCarte();
+            JouerCarte(p, carte);
             //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
             break;
         
         case 2:
-        PiocherCarte( *p, (p*).pioche, joueurActuel);
-        PiocherCarte( *p, (p*).pioche, joueurActuel);
-
+            PiocherCarte(p, (* p).joueurActuel);
+            PiocherCarte(p, (* p).joueurActuel);
         break;
 
-        case 3: 
-                carte = ChoisirCarte(*p)
-                num = TrouverPositionCarte(&p, carte, joueurActuel);
-                SupprimerCarteMain(p, num, joueurActuel );
-        
-                break;
-        
+        case 3: //Défausser
+            carte = ChoisirCarte(p);
+            num = TrouverPositionCarte(* p, carte, (* p).joueurActuel);
+            SupprimerCarteMain(p, num, (* p).joueurActuel);        
+            break;
         default: printf("Erreur saisie");
     }
 }

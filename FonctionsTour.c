@@ -175,7 +175,7 @@ bool PossedeFauxPas(TPartie p, int joueur)
 // ou bien un joueur possède un totem de 6 têtes).
 
 
-void FinPartie(TPartie p)
+/*void FinPartie(TPartie p)
 {
     bool EtatFin;
     int J =0;
@@ -247,7 +247,7 @@ void FinPartie(TPartie p)
         desallouer((*)p.pioche);
     }
 }
-
+*/
 
 //************************************
 //             AFFICHAGE

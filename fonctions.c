@@ -13,6 +13,18 @@ void creerListeCarte(TListeCarte * liste);
 void afficherListeCarte(TListeCarte liste);
 void libererListeCarte (TListeCarte * liste);
 
+/* FonctionsTour */
+void JouerCarte(TPartie * p, TCarte c); 
+void FauxPas(TPartie * partie, TPile * cartes, int joueurs[3], int pntVersJ);
+void ExecuterLynx(TPartie * p);
+void PiocherCarte(TPartie * p, int joueur);
+bool PossedeFauxPas(TPartie p, int joueur);
+void FinPartie(TPartie p);
+void AfficherCarte(TCarte c);
+TCarte ChoisirCarte(TPartie * p);
+void JouerTour(TPartie * p);
+
+
 /* FonctionsPouvoirs */
 void IntervertirTotems(TPartie * Partie);
 void CartePillage(TPartie * Partie, int joueurPille);

@@ -24,25 +24,23 @@ typedef struct _TElem{
 }TElem;
 
 typedef struct _TPile{
-  TElem * debut; //Init à PileVide()
+  TElem * debut;
 }TPile;
 
 typedef struct __TJoueur{
-
-		char nom[16]; //Init à vide
-		TListeCarte main; // Init à vide
-		int score; //init à 0
-		TPile totem; //init à vide
-		bool estProtegeVol; //Init à faux
-		bool estProtegeDestr; //Init à faux
-		bool estEffetLynx; //Init à faux
-
+		char nom[16];
+		TListeCarte main;
+		int score;
+		TPile totem;
+		bool estProtegeVol;
+		bool estProtegeDestr;
+		bool estEffetLynx;
 }TJoueur;
 
 typedef struct _TPartie
 {
 	TJoueur Joueurs[3];
 	TPile pioche;
-	int joueurActuel; //Init à 0
-	int prochainJoueur; //init à 1
+	int joueurActuel;
+	int prochainJoueur;
 }TPartie;

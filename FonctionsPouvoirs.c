@@ -8,7 +8,7 @@ void CadeauTotem(TPartie * Partie, int vitime, int gagnant);
 
 void EffetPouvoir(TCarte Carte, TPartie * Partie)
 {
-    switch(Carte.type)
+    switch(Carte.pouvoir)
     {
         case 8:{
             //Esprit Farceur

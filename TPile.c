@@ -2,15 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-TPile PileVide(); //Renvoie une pile vierge
-TPile Empiler(TCarte E, TPile P); //Renvoie une pile dont le dernier élément est E
-TPile Depiler(TPile P); //Renvoie une pile dont le dernier élément posé a été enlevé
-TCarte Sommet(TPile P); //Renvoie le dernier élément posé d'une pile
-bool EstPileVide(TPile P); //Regarde si la pile est vide ou non
-void AfficherPile(TPile P); //Affiche une pile sur l'écran
-void DesallouerPile(TPile * P); //Désalloue une pile de la mémoire
-
-
 
 TPile PileVide(){
   //Renvoie une pile vierge
@@ -71,9 +62,9 @@ void AfficherPile(TPile P){
 */
 void ViderPile(TPile * p)
 {
-  while(!EstPileVide(&p))
+  while(!EstPileVide(* p))
   {
-    Depiler(&p);
+    *p = Depiler(* p);
   }
 }
 

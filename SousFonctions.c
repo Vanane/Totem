@@ -64,14 +64,34 @@ int TrouverPositionCarte(TPartie Partie, TCarte carte, int joueur)
     TCell * aux;
     int count = 0;
     aux = Partie.Joueurs[joueur].main.debut;
-    while(aux!= carte)
+    while((* aux).carte.pouvoir != carte.pouvoir)
     {
         aux = (*aux).suivant;
         count++;
     }
     return count;
-
 }
+
+int TrouverPositionCarteParID(TPartie Partie, int carte, int joueur)
+{
+    TCell * aux;
+    int count = 0;
+    aux = Partie.Joueurs[joueur].main.debut;
+    bool trouve = false;
+    while(aux != NULL && !trouve)
+    {
+        if((* aux).carte.pouvoir != carte)
+        {
+            aux = (*aux).suivant;
+            count++;
+            trouve = true;
+        }
+    }
+    if(trouve)
+        return count;
+    else return -1;
+}
+
 
 void AjouterCarteMain(TPartie * Partie, TCarte carte, int joueur) //Ajoute une carte à la main d'un joueur
 {

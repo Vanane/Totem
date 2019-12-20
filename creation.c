@@ -18,7 +18,6 @@ int nbalea (int min, int max);
 void supprimerListeCarte (TListeCarte * liste , int i);
 TCarte rechercheCarte(TListeCarte liste, int i);
 
-
 //Procédure pour créer la partie
 void creerPartie(TPartie * Partie, TListeCarte * liste)
 

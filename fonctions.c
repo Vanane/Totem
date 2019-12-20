@@ -8,10 +8,14 @@ void AfficherPile(TPile P); //Affiche une pile sur l'écran
 void DesallouerPile(TPile * P); //Désalloue une pile de la mémoire
 
 /* Creation */
-void creerListeCarte(TListeCarte * liste);
-//void creerPartie(TPartie * Partie)
+void creerListeCarte (TListeCarte * liste);
+//void creerPartie(TPartie * Partie);
 void afficherListeCarte(TListeCarte liste);
 void libererListeCarte (TListeCarte * liste);
+void creerPileCarte(TListeCarte * liste, TPile * pioche);
+int nbalea (int min, int max);
+void supprimerListeCarte (TListeCarte * liste , int i);
+TCarte rechercheCarte(TListeCarte liste, int i);
 
 /* FonctionsTour */
 void JouerCarte(TPartie * p, TCarte c); 

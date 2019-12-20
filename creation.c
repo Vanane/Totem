@@ -7,17 +7,6 @@
 //  prototypes des fonctions
 // **************************
 
-void creerListeCarte (TListeCarte * liste);
-//void creerPartie(TPartie * Partie);
-void afficherListeCarte(TListeCarte liste);
-void libererListeCarte (TListeCarte * liste);
-void creerPileCarte(TListeCarte * liste, TPile * pioche);
-int nbalea (int min, int max);
-void supprimerListeCarte (TListeCarte * liste , int i);
-TCarte rechercheCarte(TListeCarte liste, int i);
-
-
-
 //Procédure pour créer la partie
 void creerPartieAlt(TPartie * Partie, TListeCarte * liste)
 {

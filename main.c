@@ -19,12 +19,11 @@
 
 //Programme Principal
 int main() {
-
 	TListeCarte liste;
 	liste.debut = NULL;
 	creerListeCarte(&liste);
 	TPartie Partie;
-	creerPartie(&Partie, &liste);
+	creerPartie(&Partie, &liste);    
 
 	while (EstPileVide(Partie.pioche) == false &&
         ComptePile(Partie.Joueurs[0].totem) != 6 &&

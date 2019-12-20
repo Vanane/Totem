@@ -23,8 +23,9 @@ void FauxPas(TPartie * partie, TPile * cartes, int joueurs[3], int pntVersJ);
 void ExecuterLynx(TPartie * p);
 void PiocherCarte(TPartie * p, int joueur);
 bool PossedeFauxPas(TPartie p, int joueur);
-void FinPartie(TPartie p);
+bool FinPartie(TPartie * p);
 void AfficherCarte(TCarte c);
+void AfficherMain(TPartie p, int joueur);
 TCarte ChoisirCarte(TPartie * p);
 void JouerTour(TPartie * p);
 

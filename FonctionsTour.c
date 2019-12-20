@@ -175,79 +175,29 @@ bool PossedeFauxPas(TPartie p, int joueur)
 // ou bien un joueur possède un totem de 6 têtes).
 
 
-/*void FinPartie(TPartie p)
+bool FinPartie(TPartie * p)
 {
-    bool EtatFin;
-    int J =0;
-    int cartes;
-    int tailleM;
-    int t;
-    int gagnant;
-    EtatFin = false;
-
-    //On verifie que l'etat est bien fini
-    //Si pile vide
-    if(EstPileVide(p.pioche))
-    {  //parcourir les joueurs
-        while(!EtatFin)
-       {
-            cartes = CompteCartesMain(p, J);
-            if(cartes == 0)
-            {
-                EtatFin = true;
-            }
-            J++;
-        }
-    }else{
-        while(!EtatFin)
-        {
-            if(ComptePile(p.Joueurs[J].totem))
-            {
-                EtatFin = true;
-            }
-            J++;
-        }
-    }
-    //Vide mémoire
-    if(EtatFin)
+    bool FinPartie = false;
+    for(int i = 0; i < 3; i++)
     {
-        //DEFINIR GAGNANT
-        for(int i =0; i<3; i++)
-        {
-            t = ComptePile(p.Joueurs[i].totem);
-            if(tailleM < t)
-            {
-                tailleM = t;
-                gagnant = i;
-            }
-        }        
-        printf("Félicitation Joueur %d !! Vous êtes le grand gagnant !", gagnant);
+        FinPartie = (ComptePile((* p).Joueurs[i].totem) != 6);
+    }
 
-        //SUPPRESSION CARTES, TOTEM et PIOCHE
-        for(int y = 0; y <3; y++)
-        {
-            cartes = CompteCartesMain(p, y);
-            while(cartes > 0)
-            {
-                SupprimerCarteMain(p, cartes, y);
-                cartes --;
-            }
-            while(ComptePile(p.Joueurs[y].totem)>0)
-            {
-                depiler(p.Joueurs[y].totem);
-            }
-            desallouer((*)p.Joueurs[y].totem);
-            //Pointeur vers la pile attendu
+    if(!EstPileVide((* p).pioche) && !FinPartie)
+        return false;
+    else
+    {
+        //Désallouer CHAQUE joueur, la pioche
+        for(int i = 0; i < 3; i++)
+        {            
+            DesallouerPile(&(* p).Joueurs[i].totem);
         }
-        //PIOCHE
-        while(!(p.pioche).est_pile_vide())
-        {
-            pioche = depiler(p.pioche);
-        }
-        desallouer((*)p.pioche);
+        //Désallouer la pioche
+        DesallouerPile(&(* p).pioche);
+        return true;
     }
 }
-*/
+
 
 //************************************
 //             AFFICHAGE
@@ -259,17 +209,28 @@ void AfficherCarte(TCarte c)
     printf("\n\n**********\n Carte %s**********", c.nom);
     printf("\n DESCRIPTION :\n %s \n\n", c.desc);
     printf("Type Carte : %d \n", c.type);
-
 }
 
 //******************
 // Choisir Cartes
 //******************
+void AfficherMain(TPartie p, int joueur)
+{
+    TCell * aux;
+    aux = p.Joueurs[joueur].main.debut;
+    int count = 1;
+    while (aux!= NULL)
+    {
+        printf("carte %d : ", count);
+        AfficherCarte((* aux).carte);
+        aux = ((*aux)).suivant;
+        count++;
+    } 
+}
 
 TCarte ChoisirCarte(TPartie * p)
 {
     TCell * aux;
-    TCell * prec;
     int nbCartesMain, count;
     bool trouve = false;
 

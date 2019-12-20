@@ -1,149 +1,5 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "TPile.c"
-#include "types.c"
-#include "SousFonctions.c"
-#include "FonctionsPouvoirs.c"
-#include "FonctionsEffets.c"
-
-//************************************
-//       Procédure Jouer Carte
-//************************************
- // Prend en entrée la carte jouée. En fonction du type et du pouvoir,
- // la partie sera modifiée en conséquence.
- // Les joueurs peuvent à leur tour poser une carte Faux pas,
- // s’ils en ont une. Dans ce cas, la dernière carte jouée est 
- //La carte est supprimée de la main du joueur dont c’est le tour à la fin.
-
-void JouerCarte(TPile joueursFauxPas,TPartie * p, TCarte c)
-{
-    int joueurActuel ;
-    TPile joueursFauxPas;
-
-    joueursFauxPas = PileVide();
-    TPile * cartes = PileVide();
-    cartes = Empiler(c, cartes);
-
-    //Carte ajoutée à la pile des cartes jouées
-    //On appelle FauxPas
-    //On prend la pile de carte si son sommet est un faux pas -> annuler carte
-    //Si sommet(Pile) == FauxPas
-        //Depiler
-        //Sauvegarder Joueur
-        //Si sommet(Pile) == Faux pas
-            // Joueur pioche 2 cartes
-            //Depiler
-        //Sinon la carte est remise dans la main du joueur
-            //Changement du tour joueur
-    
-    FauxPas(* p, cartes, joueursFauxPas);
-
-    while(!cartes.EstPileVide()){
-        if(sommet(* cartes).type==10) // Si c'est un Faux Pas
-        {
-            * cartes = Depiler(* cartes);
-            if(sommet(* cartes).type==10) //Si la carte en-dessous est un Faux Pas
-            {
-                PiocherCarte( * p, (* p).pioche, sommet(joueursFauxPas));
-                PiocherCarte( * p, (* p).pioche, sommet(joueursFauxPas));
-                joueursFauxPas = depiler(joueursFauxPas);
-                if(c.type == 1) //Si la carte est de type Totem
-                {
-                    Empiler(c, p.joueurActuel.totem);
-                    EffetTotem(c, * p);
-                }
-                else
-                {
-                    EffetPouvoir(c, * p);
-                }
-            }
-            else
-            {                
-                partie.prochainJoueur = sommet(cartes); //on veut récupérer le possesseur de la carte
-                ViderPile(cartes);
-                //TODO : Variable prochain joueur ?
-            }
-        }
-        else
-        {
-            if(c.type == 1) //Si la carte est de type Totem
-            {
-                (* p).Joueurs[(* p).joueurActuel].totem = Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
-                EffetTotem(c, * p);
-            }
-            else
-                EffetPouvoir(c, * p);
-        }
-    }
-}
-
-void FauxPas( TPartie * partie, TPile * cartes, int joueurs[3])
-{
-    //TODO: TPile c'est pour les cartes. il faut trouver un autre moyen pour faire une pile d'entiers ou un tableau.
-    //On demande a chaque joueurs si il veut jouer unfaux pas
-    //On le demande tant qu'il y a des joueurs qui peuvent jouer, et qu'au moins une carte a été posée à la dernière boucle.
-    // -> ajout carte a la pile
-    // -> Appel de la meme methode
-    bool r;
-    for(int i =0; i<3; i++)
-    {
-        if(i != ( *p).joueurActuel)
-        {
-            if(TrouverFauxPas(partie, i) != NULL) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
-            {
-                printf("Voulez vous jouez une carte Faux Pas ?\n");
-                r = SaisirReponse();
-                if(r)
-                {
-                    joueursFauxPas = Empiler(i);
-                    cartes = Empiler(TrouverFauxPas(partie, i));                
-                    SupprimerCarteMain(p, Sommet(cartes), i);
-                }
-            }
-        }
-    }
-}
-
-
-void ExecuterLynx(TPartie * p)
-{
-    int pos;
-    //Exécute l'effet Lynx, si le joueur est propice.
-    if((* p).Joueurs[(* p).joueurActuel].estEffetlynx)
-    {
-        TListeCarte cartesPiochees;
-        for(int i = 0; i < 3; i++)
-        {
-            AjouterCarteliste(Sommet((* p).pioche), cartesPiochees);
-            AfficherCarte(Sommet((* p).pioche));
-            (*p).pioche = Depiler((*p).pioche);
-        }
-
-        printf("Quelle carte souhaitez-vous conserver ?\n");
-        pos = SaisirEntre(1,3);
-
-        for(int i = 1; i < 4; i++)
-        {
-            if(i != pos)
-                SupprimerAPosition(cartesPiochees, i);
-        }
-        AjouterCarteMain(p, cartesPiochees.debut.carte, (* p).joueurActuel);
-        SupprimerAPosition(cartesPiochees, 1); //TODO: Position 0 ou 1 ?
-    }
-}
-
-
-//************************************
-//      Procédure Piocher Carte
-//************************************
-//Ajoute au deck d'un joueur 2 cartes prises sur le dessus de la pioche
-
-void PiocherCarte(TPartie * p, int joueur)
-{
-    AjouterCarteMain( p, Sommet((*p).pioche), joueur);
-    (*p).pioche = Depiler((*p).pioche);
-}
-
 
 
 //*********
@@ -168,6 +24,155 @@ TCarte TrouverFauxPas(TPartie * p, int joueur)
     return AFauxpas;
 }
 
+//******
+// FauxPas
+//******
+
+void FauxPas( TPartie * partie, TPile * cartes, int joueurs[3])
+{
+    //TODO: TPile c'est pour les cartes. il faut trouver un autre moyen pour faire une pile d'entiers ou un tableau.
+    //On demande a chaque joueurs si il veut jouer unfaux pas
+    //On le demande tant qu'il y a des joueurs qui peuvent jouer, et qu'au moins une carte a été posée à la dernière boucle.
+    // -> ajout carte a la pile
+    // -> Appel de la meme methode
+    bool r;
+    for(int i =0; i<3; i++)
+    {
+        if(i != ( *partie).joueurActuel)
+        {
+            if(TrouverFauxPas(partie, i) != NULL) //On verifie qu'il possède un faux Pas avant de lui demander si il veut en jouer un
+            {
+                printf("Voulez vous jouez une carte Faux Pas ?\n");
+                r = SaisirReponse();
+                if(r)
+                {
+                    joueursFauxPas = Empiler(i, joueursFauxPas);
+                    &cartes = Empiler(TrouverFauxPas(partie, i));                
+                    SupprimerCarteMain(p, Sommet(cartes), i);
+                }
+            }
+        }
+    }
+}
+
+
+//************************************
+//       Procédure Jouer Carte
+//************************************
+ // Prend en entrée la carte jouée. En fonction du type et du pouvoir,
+ // la partie sera modifiée en conséquence.
+ // Les joueurs peuvent à leur tour poser une carte Faux pas,
+ // s’ils en ont une. Dans ce cas, la dernière carte jouée est 
+ //La carte est supprimée de la main du joueur dont c’est le tour à la fin.
+
+void JouerCarte(TPartie * p, TCarte c)
+{
+    int joueurActuel ;
+    TPile joueursFauxPas;
+
+    joueursFauxPas = PileVide();
+    TPile  cartes;
+    cartes = PileVide();
+    cartes = Empiler(c, cartes);
+
+    //Carte ajoutée à la pile des cartes jouées
+    //On appelle FauxPas
+    //On prend la pile de carte si son sommet est un faux pas -> annuler carte
+    //Si sommet(Pile) == FauxPas
+        //Depiler
+        //Sauvegarder Joueur
+        //Si sommet(Pile) == Faux pas
+            // Joueur pioche 2 cartes
+            //Depiler
+        //Sinon la carte est remise dans la main du joueur
+            //Changement du tour joueur
+    
+    FauxPas(p, &cartes, joueursFauxPas);
+
+    while(!(EstPileVide(cartes))){
+        if(Sommet(cartes).type==10) // Si c'est un Faux Pas
+        {
+            cartes = Depiler(cartes);
+            if(Sommet(cartes).type==10) //Si la carte en-dessous est un Faux Pas
+            {
+                PiocherCarte( * p, (* p).pioche, Sommet(joueursFauxPas));
+                PiocherCarte( * p, (* p).pioche, Sommet(joueursFauxPas));
+                joueursFauxPas = Depiler(joueursFauxPas);
+                if(c.type == 1) //Si la carte est de type Totem
+                {
+                    Empiler(c, (*p).joueurActuel.totem);
+                    EffetTotem(c, p);
+                }
+                else
+                {
+                    EffetPouvoir(c, p);
+                }
+            }
+            else
+            {                
+                (*p).prochainJoueur = Sommet(cartes); //on veut récupérer le possesseur de la carte
+                ViderPile(cartes);
+                //TODO : Variable prochain joueur ?
+            }
+        }
+        else
+        {
+            if(c.type == 1) //Si la carte est de type Totem
+            {
+                (* p).Joueurs[(* p).joueurActuel].totem = Empiler(c, (* p).Joueurs[(* p).joueurActuel].totem);
+                EffetTotem(c, * p);
+            }
+            else
+                EffetPouvoir(c, * p);
+        }
+    }
+}
+
+
+
+void ExecuterLynx(TPartie * p)
+{
+    int pos;
+    TCarte cartAj;
+    //Exécute l'effet Lynx, si le joueur est propice.
+    if((* p).Joueurs[(* p).joueurActuel].estEffetLynx)
+    {
+        TListeCarte cartesPiochees;
+        for(int i = 0; i < 3; i++)
+        {
+            AjouterCarteliste(Sommet((* p).pioche), cartesPiochees);
+            AfficherCarte(Sommet((* p).pioche));
+            (*p).pioche = Depiler((*p).pioche);
+        }
+
+        printf("Quelle carte souhaitez-vous conserver ?\n");
+        pos = SaisirEntre(1,3);
+
+       
+        cartAj = rechercheCarte(cartesPiochees,pos);
+
+        for(int i = 1; i < 4; i++)
+        {
+            SupprimerAPosition(cartesPiochees, i);
+        }
+
+        AjouterCarteMain(p, cartAj, (* p).joueurActuel);
+    }
+}
+
+
+//************************************
+//      Procédure Piocher Carte
+//************************************
+//Ajoute au deck d'un joueur 2 cartes prises sur le dessus de la pioche
+
+void PiocherCarte(TPartie * p, int joueur)
+{
+    AjouterCarteMain( p, Sommet((*p).pioche), joueur);
+    (*p).pioche = Depiler((*p).pioche);
+}
+
+
 //************************************
 //        Procédure Fin partie
 //************************************
@@ -176,7 +181,7 @@ TCarte TrouverFauxPas(TPartie * p, int joueur)
 // ou bien un joueur possède un totem de 6 têtes).
 
 
-void FinPartie(TPartie p)
+void FinPartie(TPartie * p)
 {
     bool EtatFin;
     int J =0;
@@ -188,7 +193,7 @@ void FinPartie(TPartie p)
 
     //On verifie que l'etat est bien fini
     //Si pile vide
-    if(EstPileVide(p.pioche))
+    if(EstPileVide((*p).pioche))
     {  //parcourir les joueurs
         while(!EtatFin)
        {
@@ -202,7 +207,7 @@ void FinPartie(TPartie p)
     }else{
         while(!EtatFin)
         {
-            if(ComptePile(p.Joueurs[J].totem))
+            if(ComptePile((*p).Joueurs[J].totem))
             {
                 EtatFin = true;
             }
@@ -215,7 +220,7 @@ void FinPartie(TPartie p)
         //DEFINIR GAGNANT
         for(int i =0; i<3; i++)
         {
-            t = ComptePile(p.Joueurs[i].totem);
+            t = ComptePile((*p).Joueurs[i].totem);
             if(tailleM < t)
             {
                 tailleM = t;
@@ -227,25 +232,25 @@ void FinPartie(TPartie p)
         //SUPPRESSION CARTES, TOTEM et PIOCHE
         for(int y = 0; y <3; y++)
         {
-            cartes = CompteCartesMain(p, y);
+            cartes = CompteCartesMain(*p, y);
             while(cartes > 0)
             {
-                SupprimerCarteMain(p, cartes, y);
+                SupprimerCarteMain(*p, cartes, y);
                 cartes --;
             }
-            while(ComptePile(p.Joueurs[y].totem)>0)
+            while(ComptePile(*p.Joueurs[y].totem)>0)
             {
-                depiler(p.Joueurs[y].totem);
+                (*p).Joueurs[y].totem = Depiler((*p).Joueurs[y].totem);
             }
-            desallouer((*)p.Joueurs[y].totem);
+            desallouer((*p).Joueurs[y].totem);
             //Pointeur vers la pile attendu
         }
         //PIOCHE
-        while(!(p.pioche).est_pile_vide())
+        while(!((p*).pioche).est_pile_vide())
         {
-            pioche = depiler(p.pioche);
+            pioche = Depiler((*p).pioche);
         }
-        desallouer((*)p.pioche);
+        desallouer((*p).pioche);
     }
 }
 
@@ -337,7 +342,7 @@ void JouerTour(TPartie * p)
             
             printf("Quelle carte voulez vous jouez ?");
             carte = ChoisirCarte(p);
-            CartesJ.Empiler(carte);
+            CartesJ = Empiler(carte, CartesJ);
             JouerCarte();
             //Après jouerCarte, on demande aux autres joueurs si ils veulent jouer une carte Faux Pas
             break;

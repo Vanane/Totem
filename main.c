@@ -22,6 +22,7 @@ int main() {
 	TListeCarte liste;
 	liste.debut = NULL;
 	creerListeCarte(&liste);
+	
 	TPartie Partie;
 	creerPartie(&Partie, &liste);    
 
@@ -31,9 +32,10 @@ int main() {
         ComptePile(Partie.Joueurs[2].totem) != 6)
     {
 		JouerTour(&Partie);
-		Partie.joueurActuel = (Partie.joueurActuel + 1) % 3;        
+		Partie.joueurActuel = (Partie.joueurActuel + 1) % 3; 
+		Partie.prochainJoueur = (Partie.prochainJoueur + 1) % 3;
 	}
-	FinPartie(&Partie);
+	//FinPartie(&Partie);
     
     return 0;
 }

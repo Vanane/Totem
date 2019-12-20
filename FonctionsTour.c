@@ -202,18 +202,18 @@ bool FinPartie(TPartie * p)
 //************************************
 //             AFFICHAGE
 //************************************
+//Afficher une main
+//******************
+
 //Afficher une carte
 
 void AfficherCarte(TCarte c)
 {
-    printf("\n\n**********\n Carte %s**********", c.nom);
-    printf("\n DESCRIPTION :\n %s \n\n", c.desc);
-    printf("Type Carte : %d \n", c.type);
+	printf("\n\n**********\n Carte %s**********", c.nom);
+	printf("\n DESCRIPTION :\n %s \n\n", c.desc);
+	printf("Type Carte : %d \n", c.type);
 }
 
-//******************
-// Choisir Cartes
-//******************
 void AfficherMain(TPartie p, int joueur)
 {
     TCell * aux;
@@ -258,7 +258,6 @@ TCarte ChoisirCarte(TPartie * p)
 }
 
 
-
 //************************************
 //        Procédure Jouer Tour
 //************************************
@@ -274,6 +273,8 @@ void JouerTour(TPartie * p)
     (* p).prochainJoueur = ((* p).joueurActuel + 1) % 3;
 
     //       DEBUT_cartes
+	printf("Voici votre main : ");
+	AfficherMain((*p), (*p).joueurActuel);
     printf("Quelle action souhaitez vous faire ? \n\t1/Jouer une carte\n\t2/Piocher deux cartes\n\t3/Defausser une carte de votre main \n");
     choix = SaisirEntre(1,3);
 

@@ -252,14 +252,20 @@ bool PossedeFauxPas(TPartie p, int joueur)
 //************************************
 //             AFFICHAGE
 //************************************
-//Afficher une carte
+//Afficher une main
 
-void AfficherCarte(TCarte c)
+void AfficherMain(TPartie p, int joueur)
 {
-    printf("\n\n**********\n Carte %s**********", c.nom);
-    printf("\n DESCRIPTION :\n %s \n\n", c.desc);
-    printf("Type Carte : %d \n", c.type);
-
+	TCell * aux;
+	aux = p.Joueurs[joueur].main.debut;
+	int count = 1;
+	while (aux != NULL)
+	{
+		printf("carte %d : ", count);
+		AfficherCarte((*aux).carte);
+		aux = ((*aux)).suivant;
+		count++;
+	}
 }
 
 //******************
@@ -297,7 +303,6 @@ TCarte ChoisirCarte(TPartie * p)
 }
 
 
-
 //************************************
 //        Procédure Jouer Tour
 //************************************
@@ -313,6 +318,8 @@ void JouerTour(TPartie * p)
     (* p).prochainJoueur = ((* p).joueurActuel + 1) % 3;
 
     //       DEBUT_cartes
+	printf("Voici votre main : ");
+	AfficherMain((*p), (*p).joueurActuel);
     printf("Quelle action souhaitez vous faire ? \n\t1/Jouer une carte\n\t2/Piocher deux cartes\n\t3/Defausser une carte de votre main \n");
     choix = SaisirEntre(1,3);
 

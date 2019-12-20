@@ -21,20 +21,6 @@ int SaisirEntre(int min, int max)
  return saisi;
 }
 
-void AfficherMain(TPartie p, int joueur)
-{
-    TCell * aux;
-    aux = p.Joueurs[joueur].main.debut;
-    int count = 1;
-    while(aux!= NULL)
-    {
-        printf("carte %d : ",count);
-        AfficherCarte((*aux).carte);
-        aux = (*aux).suivant;
-        count++;
-    }
-}
-
 bool SaisirReponse(char message[128]) //Retourn Vrai ou Faux selon la réponse de l'utilisateur (o ou n)
 {
     char c;
